@@ -1,3 +1,4 @@
 # EME-client
 
-Developed and maintained by SYDHASSAN
+Developed and maintained by SYDHASSAN & JUD
+
