@@ -1,0 +1,95 @@
+.hero-future {
+    position: relative;
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: white;
+    /* Fallback */
+}
+
+.hero-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.1;
+    /* Very subtle against white */
+    z-index: 1;
+}
+
+.hero-future-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 1rem;
+}
+
+.hero-eyebrow-future {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    color: #555;
+}
+
+.hero-title-future {
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03rem;
+    background: var(--color-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: shine 5s linear infinite;
+}
+
+.hero-subtitle-future {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.btn-future {
+    padding: 1rem 3rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: transparent;
+    border: 2px solid transparent;
+    border-image: var(--color-gradient-primary) 1;
+    color: var(--color-text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.btn-future:hover {
+    background: var(--color-gradient-primary);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title-future {
+        font-size: 3rem;
+    }
+}

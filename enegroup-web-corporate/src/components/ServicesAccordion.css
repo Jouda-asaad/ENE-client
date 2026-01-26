@@ -1,0 +1,117 @@
+.services-acc-section {
+    padding: 6rem 0;
+    background-color: var(--color-corp-gray);
+}
+
+.acc-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-corp-blue);
+    margin-bottom: 3rem;
+    padding-left: 2rem;
+    border-left: 5px solid var(--color-corp-orange);
+}
+
+.accordion-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.acc-item {
+    border-bottom: 2px solid #E0E0E0;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.acc-header {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.acc-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.acc-number {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #E0E0E0;
+    margin-right: 2rem;
+}
+
+.acc-icon {
+    font-size: 1.5rem;
+    color: var(--color-corp-orange);
+    transition: transform 0.3s ease;
+}
+
+.acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+    background-color: #FAFAFA;
+}
+
+.acc-content {
+    padding: 2rem 2rem 3rem 6rem;
+    /* Indented to align with title */
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+}
+
+.acc-desc {
+    flex: 2;
+    font-size: 1.125rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+.acc-img-placeholder {
+    flex: 1;
+    height: 150px;
+    background-color: #ddd;
+    border-radius: 4px;
+    /* Slight roundness */
+}
+
+/* Active State */
+.acc-item.active {
+    background-color: var(--color-corp-blue);
+}
+
+.acc-item.active .acc-header h3 {
+    color: white;
+}
+
+.acc-item.active .acc-number {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.acc-item.active .acc-icon {
+    transform: rotate(180deg);
+    color: white;
+}
+
+.acc-item.active .acc-body {
+    max-height: 500px;
+    /* Arbitrary large height */
+    background-color: white;
+    /* Body goes back to white for clean reading */
+}
+
+@media (max-width: 768px) {
+    .acc-content {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+}

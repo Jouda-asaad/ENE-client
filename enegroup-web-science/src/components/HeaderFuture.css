@@ -1,0 +1,92 @@
+.header-future {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-future-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.future-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.future-logo-img {
+    height: 40px;
+    width: auto;
+}
+
+.future-brand-text {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #111;
+    letter-spacing: -0.02em;
+}
+
+.future-nav {
+    display: flex;
+    gap: 2rem;
+}
+
+.future-nav-link {
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.future-nav-link:hover {
+    color: #004A99;
+}
+
+.future-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-gradient-text);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.future-nav-link:hover::after {
+    width: 100%;
+}
+
+.btn-header-future {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: 50px;
+    color: white;
+    background: black;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-header-future:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #111 0%, #333 100%);
+}

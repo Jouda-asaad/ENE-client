@@ -1,0 +1,5 @@
+/* Cleared default Vite styles to prevent conflicts */
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+}

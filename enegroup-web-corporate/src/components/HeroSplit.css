@@ -1,0 +1,145 @@
+.hero-split {
+    display: flex;
+    min-height: 90vh;
+    /* Full impactful height */
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 4rem 4rem 8rem;
+    /* Large left padding for corporate whitespace */
+    z-index: 2;
+}
+
+.hero-visual-side {
+    flex: 1;
+    position: relative;
+    background-color: var(--color-corp-blue);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    /* Diagonal cut */
+    transition: clip-path 0.4s ease, background-color 0.4s ease;
+    overflow: hidden;
+}
+
+/* Hover Effect: Reveal Image */
+.hero-visual-side:hover {
+    background-color: rgba(0, 51, 102, 0.2);
+    /* Much lighter blue overlay */
+    clip-path: polygon(12% 0, 100% 0, 100% 100%, 3% 100%);
+    /* Slight expansion of the area */
+}
+
+.hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+    transition: all 0.5s ease;
+    transform: scale(1.05);
+    /* Slight zoom for depth */
+}
+
+.hero-visual-side:hover .hero-bg-img {
+    opacity: 1;
+    mix-blend-mode: normal;
+    transform: scale(1.0);
+}
+
+/* Highlight Animation (Sheen) */
+.hero-visual-side::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    transition: none;
+}
+
+.hero-visual-side:hover::after {
+    left: 200%;
+    transition: left 0.7s ease-in-out;
+}
+
+.corp-badge {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-corp-blue);
+    border-bottom: 2px solid var(--color-corp-orange);
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+.corp-headline {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--color-corp-blue);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+.corp-headline span {
+    color: var(--color-corp-orange);
+}
+
+.corp-sub {
+    font-size: 1.125rem;
+    color: #555;
+    max-width: 500px;
+    margin-bottom: 3rem;
+}
+
+.btn-corp {
+    padding: 1rem 2.5rem;
+    background-color: var(--color-corp-blue);
+    color: white;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 0;
+    /* Sharp corners */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-corp:hover {
+    background-color: #002244;
+    padding-right: 3rem;
+    /* Slide effect */
+}
+
+@media (max-width: 1024px) {
+    .hero-split {
+        flex-direction: column;
+    }
+
+    .hero-content {
+        padding: 4rem 2rem;
+    }
+
+    .hero-visual-side {
+        min-height: 400px;
+        clip-path: none;
+    }
+}
