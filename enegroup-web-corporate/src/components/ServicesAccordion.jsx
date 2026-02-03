@@ -1,58 +1,94 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './ServicesAccordion.css';
+
+const services = [
+    {
+        id: "01",
+        title: "Offshore Engineering",
+        description: "Comprehensive engineering solutions for offshore platforms, including structural analysis, modification, and integrity management.",
+        image: "/assets/backgrounds/1.jpg"
+    },
+    {
+        id: "02",
+        title: "Hook-up & Commissioning",
+        description: "End-to-end HUC services ensuring seamless integration and activation of offshore and onshore facilities.",
+        image: "/assets/misc/huc.png"
+    },
+    {
+        id: "03",
+        title: "Marine Operations",
+        description: "Expert marine logistics, vessel handling, and subsea operations support for complex offshore projects.",
+        image: "/assets/misc/marine.png"
+    },
+    {
+        id: "04",
+        title: "Maintenance & T/A",
+        description: "Reliable maintenance strategies and turnaround execution to maximize asset uptime and operational safety.",
+        image: "/assets/misc/maintenance.png"
+    }
+];
 
 const ServicesAccordion = () => {
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const services = [
-        {
-            title: "Mechanical & Piping Engineering",
-            desc: "Specialized in subsea pipelines, top-side piping systems, and pressure vessel fabrication. We adhere to ASME and API standards to ensure structural integrity and operational safety.",
-        },
-        {
-            title: "Electrical & Instrumentation",
-            desc: "Comprehensive E&I services including control system design, offshore power generation, and hazard area installations (ATEX compliant).",
-        },
-        {
-            title: "Procurement & Supply Chain",
-            desc: "Global sourcing network ensuring timely delivery of critical components, backed by rigorous QA/QC inspection protocols.",
-        }
-    ];
-
-    const toggle = (i) => {
-        setActiveIndex(activeIndex === i ? null : i);
-    };
-
     return (
-        <section className="services-acc-section">
-            <div className="container">
-                <h2 className="acc-title">Our Capabilities</h2>
+        <section className="services-section">
+            <div className="section-header-container">
+                <div className="accent-bar"></div>
+                <h2 className="section-title">Core Competencies</h2>
+                <p className="section-subtitle">Delivering excellence across the energy value chain.</p>
+            </div>
 
-                <div className="accordion-list">
-                    {services.map((item, index) => (
-                        <div
-                            key={index}
-                            className={`acc-item ${activeIndex === index ? 'active' : ''}`}
-                        >
-                            <div className="acc-header" onClick={() => toggle(index)}>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <span className="acc-number">0{index + 1}</span>
-                                    <h3>{item.title}</h3>
-                                </div>
-                                <span className="acc-icon">▼</span>
+            <div className="accordion-container">
+                {services.map((service, index) => (
+                    <div
+                        key={service.id}
+                        className={`accordion-item ${activeIndex === index ? 'active' : ''}`}
+                        onMouseEnter={() => setActiveIndex(index)}
+                        onClick={() => setActiveIndex(index)}
+                        style={{
+                            backgroundImage: `linear-gradient(to bottom, rgba(10, 22, 40, 0.3), rgba(10, 22, 40, 0.95)), url(${service.image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center'
+                        }}
+                    >
+                        <div className="accordion-content">
+                            <div className="service-header-row">
+                                <span className="service-id">{service.id}</span>
+                                <h3 className="service-title">{service.title}</h3>
                             </div>
 
-                            <div className="acc-body">
-                                <div className="acc-content">
-                                    <p className="acc-desc">{item.desc}</p>
-                                    <div className="acc-img-placeholder">
-                                        {/* Real image would go here */}
-                                    </div>
-                                </div>
-                            </div>
+                            <AnimatePresence>
+                                {activeIndex === index && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="service-details"
+                                    >
+                                        <p className="service-desc">{service.description}</p>
+                                        <button className="service-link">
+                                            Learn More <span className="material-symbols-outlined">arrow_forward</span>
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
-                    ))}
-                </div>
+
+                        {/* Background for active state - using a gradient overlay on top of abstract bg */}
+                        {activeIndex === index && (
+                            <motion.div
+                                layoutId="activeServiceBg"
+                                className="accordion-bg"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.3 }}
+                            />
+                        )}
+                    </div>
+                ))}
             </div>
         </section>
     );

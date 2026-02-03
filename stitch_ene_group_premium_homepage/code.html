@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ENE Group - Industrial Power Homepage</title>
+<!-- Google Fonts: Inter (Body) and Montserrat (Headings) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Montserrat:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "primary-dark": "#0A1628",
+                        "accent-orange": "#FFA500",
+                        "charcoal": "#1A1A1A",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "heading": ["Montserrat", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1A1A; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a5568; 
+        }
+    </style>
+</head>
+<body class="bg-[#1A1A1A] text-white font-display antialiased overflow-x-hidden">
+<div class="relative min-h-screen w-full flex flex-col">
+<!-- Sticky Navigation -->
+<header class="sticky top-0 z-50 w-full backdrop-blur-md bg-[#0A1628]/80 border-b border-white/10">
+<div class="px-4 md:px-10 lg:px-40 py-4 flex items-center justify-between">
+<!-- Logo -->
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 bg-primary rounded flex items-center justify-center">
+<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-heading font-bold tracking-tight">ENE Group</h2>
+</div>
+<!-- Desktop Menu -->
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="#">Home</a>
+<a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="#">Services</a>
+<a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="#">About Us</a>
+<a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="#">Projects</a>
+<a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="#">Investors</a>
+</nav>
+<!-- CTA -->
+<div class="flex items-center">
+<button class="flex items-center justify-center rounded-lg h-10 px-5 bg-primary hover:bg-blue-600 transition-colors text-white text-sm font-bold font-heading">
+                        Get in Touch
+                    </button>
+<!-- Mobile Menu Button -->
+<button class="lg:hidden ml-4 text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative flex min-h-[90vh] w-full flex-col justify-center items-center overflow-hidden">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-r from-[#0A1628]/90 via-[#0A1628]/60 to-[#0A1628]/30 z-10"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#1A1A1A]/20 to-[#1A1A1A] z-10"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Massive offshore oil platform in dark moody ocean at twilight" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAA__byPsD8DDabLMNYanEKu1fTVzZYbTCXIA7X406VwhhvCXhtsszeItbrX3P0u61NKibuVmtmQMBnnnWTv1b2KzAQ22NaZwA-rfISQY4wl2MwPoAYgf_LiqqdNJn6F3J9ENyLYmNvQPSZFCKBKKYqlEh2zsQ-OcBJ4nmRqut1YG9vUkmTVURphNdxSnkoolu-p71upR8jYYyUb3T03OVX2NZQecg8B7OgpEUkemeohCH9aycZnwNIAfQyAMxJ0Hp2snWESDRZufM');">
+</div>
+</div>
+<div class="relative z-20 w-full px-4 md:px-10 lg:px-40 pt-20 pb-32">
+<div class="max-w-4xl flex flex-col gap-8">
+<!-- Text Content -->
+<div class="flex flex-col gap-6 animate-fade-in-up">
+<div class="w-20 h-1 bg-cyan-400"></div>
+<h1 class="text-white text-5xl md:text-6xl lg:text-7xl font-heading font-black leading-tight tracking-tight">
+                            Powering Malaysia's<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Energy Future</span>
+</h1>
+<p class="text-gray-300 text-lg md:text-xl font-light max-w-2xl leading-relaxed">
+                            Leading the charge in offshore innovation and industrial power solutions. We deliver sustainable infrastructure for the next generation of energy.
+                        </p>
+</div>
+<!-- CTAs -->
+<div class="flex flex-wrap gap-4 mt-4">
+<button class="flex items-center justify-center rounded-lg h-12 px-8 bg-primary hover:bg-blue-600 transition-all text-white text-base font-bold font-heading shadow-[0_0_20px_rgba(13,127,242,0.3)]">
+                            Download Investor Deck
+                        </button>
+<button class="flex items-center justify-center rounded-lg h-12 px-8 border border-white/30 hover:bg-white/10 backdrop-blur-sm transition-all text-white text-base font-bold font-heading">
+                            Book a Consultation
+                        </button>
+</div>
+</div>
+</div>
+<!-- Scroll Indicator -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-gray-400 animate-bounce">
+<span class="text-xs uppercase tracking-widest">Scroll</span>
+<span class="material-symbols-outlined">keyboard_arrow_down</span>
+</div>
+</section>
+<!-- Stats Bar -->
+<section class="w-full bg-[#1A1A1A] border-y border-white/5 relative z-20">
+<div class="px-4 md:px-10 lg:px-40 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
+<div class="flex flex-col gap-2 px-4 text-center md:text-left">
+<p class="text-accent-orange text-4xl md:text-5xl font-heading font-bold">23+</p>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Years Experience</p>
+</div>
+<div class="flex flex-col gap-2 px-4 text-center md:text-left">
+<p class="text-accent-orange text-4xl md:text-5xl font-heading font-bold">500+</p>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Projects Delivered</p>
+</div>
+<div class="flex flex-col gap-2 px-4 text-center md:text-left">
+<p class="text-accent-orange text-4xl md:text-5xl font-heading font-bold">$50M+</p>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Equipment Value</p>
+</div>
+<div class="flex flex-col gap-2 px-4 text-center md:text-left">
+<p class="text-accent-orange text-4xl md:text-5xl font-heading font-bold">100+</p>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Industry Experts</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Competencies (Feature Section) -->
+<section class="w-full bg-[#1A1A1A] py-20 px-4 md:px-10 lg:px-40">
+<div class="flex flex-col gap-4 mb-12">
+<h2 class="text-accent-orange font-bold tracking-widest uppercase text-sm">Our Expertise</h2>
+<h3 class="text-white text-3xl md:text-4xl font-heading font-bold">What We Do</h3>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Left Image -->
+<div class="relative h-[600px] rounded-xl overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Close up of industrial piping and valves in a refinery" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDqZ2gSHPrF8Zygns4V8d2gPcVe2xowijq2wxCLZUEvwYvvJXskgHfPaxMxpN-Og_miiYk3MhSd9ERZrnyuJXZa6LM6TiPc2K1H3zyuHhAGwOM141scR0S5AhWlU7cjinK_JRURxKBEbyg5ePeih4cjWh5wjaFGAiWnExpDFxIzWHqAghnXJnFokqWNqjitwm8d4jlMOxQvBc9bfnAAsa3Rg6vYsvKeLc__NUWcEvA0UAYAUTdF2QyLxpeNPuvW0SMbSjO1sGMj6rA');">
+</div>
+<div class="absolute bottom-8 left-8 z-20">
+<h4 class="text-white text-2xl font-heading font-bold mb-2">Integrated Solutions</h4>
+<p class="text-gray-300 max-w-sm">From concept to commissioning, we handle the most complex challenges in the energy sector.</p>
+</div>
+</div>
+<!-- Right Service Blocks -->
+<div class="flex flex-col gap-6">
+<!-- Block 1 -->
+<div class="group flex gap-6 p-6 rounded-xl border border-white/5 bg-[#222a36] hover:bg-[#2a3441] transition-colors cursor-pointer">
+<div class="shrink-0 flex items-center justify-center w-14 h-14 rounded-full bg-[#0A1628] text-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">engineering</span>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="text-white text-xl font-heading font-bold">Engineering Design</h4>
+<p class="text-gray-400 text-sm leading-relaxed">Front-end engineering design (FEED) and detailed technical consultancy for offshore structures.</p>
+<a class="text-primary text-sm font-bold flex items-center gap-1 mt-1 group-hover:text-white transition-colors" href="#">
+                                Learn More <span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Block 2 -->
+<div class="group flex gap-6 p-6 rounded-xl border border-white/5 bg-[#222a36] hover:bg-[#2a3441] transition-colors cursor-pointer">
+<div class="shrink-0 flex items-center justify-center w-14 h-14 rounded-full bg-[#0A1628] text-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">assignment</span>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="text-white text-xl font-heading font-bold">Project Management</h4>
+<p class="text-gray-400 text-sm leading-relaxed">End-to-end execution oversight ensuring timely delivery within budget and safety standards.</p>
+<a class="text-primary text-sm font-bold flex items-center gap-1 mt-1 group-hover:text-white transition-colors" href="#">
+                                Learn More <span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Block 3 -->
+<div class="group flex gap-6 p-6 rounded-xl border border-white/5 bg-[#222a36] hover:bg-[#2a3441] transition-colors cursor-pointer">
+<div class="shrink-0 flex items-center justify-center w-14 h-14 rounded-full bg-[#0A1628] text-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">precision_manufacturing</span>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="text-white text-xl font-heading font-bold">Equipment Rental</h4>
+<p class="text-gray-400 text-sm leading-relaxed">Access to high-performance heavy machinery, power generators, and specialized tools.</p>
+<a class="text-primary text-sm font-bold flex items-center gap-1 mt-1 group-hover:text-white transition-colors" href="#">
+                                Learn More <span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Block 4 -->
+<div class="group flex gap-6 p-6 rounded-xl border border-white/5 bg-[#222a36] hover:bg-[#2a3441] transition-colors cursor-pointer">
+<div class="shrink-0 flex items-center justify-center w-14 h-14 rounded-full bg-[#0A1628] text-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">support_agent</span>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="text-white text-xl font-heading font-bold">Maintenance &amp; Support</h4>
+<p class="text-gray-400 text-sm leading-relaxed">24/7 technical assistance, on-site troubleshooting, and preventative maintenance programs.</p>
+<a class="text-primary text-sm font-bold flex items-center gap-1 mt-1 group-hover:text-white transition-colors" href="#">
+                                Learn More <span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="w-full bg-[#151f2b] py-20 px-4 md:px-10 lg:px-40">
+<div class="flex flex-col-reverse lg:flex-row gap-12 lg:gap-20 items-center">
+<!-- Text Content -->
+<div class="flex-1 flex flex-col gap-6">
+<div class="w-16 h-1 bg-accent-orange"></div>
+<h2 class="text-white text-3xl md:text-5xl font-heading font-bold leading-tight">
+                        23 Years of Excellence in <br/><span class="text-gray-400">Industrial Standards</span>
+</h2>
+<p class="text-gray-300 text-lg leading-relaxed">
+                        ENE Group is a proudly Bumiputra-owned organization committed to delivering world-class industrial standards. Our legacy is built on trust, safety, and sustainable innovation. We have partnered with global leaders to bring cutting-edge technology to local shores.
+                    </p>
+<div class="flex flex-col gap-4 mt-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-2xl">check_circle</span>
+<span class="text-white font-medium">ISO 9001:2015 Certified Operations</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-2xl">check_circle</span>
+<span class="text-white font-medium">100% Safety Compliance Record</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-2xl">check_circle</span>
+<span class="text-white font-medium">Award-winning Sustainability Practices</span>
+</div>
+</div>
+<div class="mt-8">
+<button class="flex items-center justify-center rounded-lg h-12 px-8 bg-[#2a3441] hover:bg-[#344050] transition-colors text-white text-base font-bold font-heading">
+                            Read Our Story
+                        </button>
+</div>
+</div>
+<!-- Video/Image Placeholder -->
+<div class="flex-1 w-full">
+<div class="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 group">
+<div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10 flex items-center justify-center cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-4xl ml-1">play_arrow</span>
+</div>
+</div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Corporate video thumbnail showing engineers reviewing blueprints on site" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkTEdJ6-DmAULpZxYvO4Z3LNzbgh8TBDC831w7tYibHSXpI14P7CFKe8yqwJErF3cha52heL6aQPS0ZPgawHOGTYAI1EAKpB7xo5IZLfn15lPPO74mTLmywqa2SJXxE-M7BC6GSt5A48a-_K2Jmd7IUc03wuQHvObfXFKqfti_8T_6n0wx4i3gJpyIeYEcSnsgfyFnQwYW-RDcr4P8nw-0lFTvU_AIDGy7YcbH8YGbJ2UpqH11sTNKcOfhjFryLmzrUaZN_Lj4J6U');">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trusted By Section -->
+<section class="w-full bg-[#1A1A1A] py-16 border-t border-white/5">
+<div class="px-4 md:px-10 lg:px-40 flex flex-col items-center gap-8">
+<p class="text-gray-500 uppercase tracking-widest text-sm font-bold">Trusted by Industry Leaders</p>
+<div class="flex flex-wrap justify-center gap-12 md:gap-20 opacity-60 grayscale">
+<!-- Logo Placeholders using simple text for demo, assuming real logos would be images -->
+<div class="flex items-center gap-2 text-2xl font-bold font-heading text-white hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-3xl">water_drop</span> Shell
+                     </div>
+<div class="flex items-center gap-2 text-2xl font-bold font-heading text-white hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-3xl">diamond</span> Sapura
+                     </div>
+<div class="flex items-center gap-2 text-2xl font-bold font-heading text-white hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-3xl">settings_input_component</span> Yokogawa
+                     </div>
+<div class="flex items-center gap-2 text-2xl font-bold font-heading text-white hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-3xl">security</span> Kenexis
+                     </div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full bg-[#0A1628] pt-20 pb-10 border-t border-white/10">
+<div class="px-4 md:px-10 lg:px-40">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+<!-- Col 1: Brand -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 bg-primary rounded flex items-center justify-center">
+<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-heading font-bold">ENE Group</h2>
+</div>
+<p class="text-gray-400 text-sm leading-relaxed">
+                            Your trusted partner in offshore engineering and industrial power solutions. Delivering excellence since 2001.
+                        </p>
+<div class="flex gap-4 mt-2">
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="text-gray-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+</div>
+</div>
+<!-- Col 2: Quick Links -->
+<div class="flex flex-col gap-6">
+<h4 class="text-white font-heading font-bold text-lg">Quick Links</h4>
+<div class="flex flex-col gap-3">
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">About Us</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Services</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Projects Gallery</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Investor Relations</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Careers</a>
+</div>
+</div>
+<!-- Col 3: Services -->
+<div class="flex flex-col gap-6">
+<h4 class="text-white font-heading font-bold text-lg">Our Services</h4>
+<div class="flex flex-col gap-3">
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Engineering Design</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Project Management</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Equipment Rental</a>
+<a class="text-gray-400 hover:text-primary transition-colors text-sm" href="#">Maintenance &amp; Support</a>
+</div>
+</div>
+<!-- Col 4: Contact -->
+<div class="flex flex-col gap-6">
+<h4 class="text-white font-heading font-bold text-lg">Contact Us</h4>
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary shrink-0 mt-1">location_on</span>
+<p class="text-gray-400 text-sm">Level 23, Menara ENE, Jalan Sultan Ismail, 50250 Kuala Lumpur, Malaysia</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary shrink-0">call</span>
+<p class="text-gray-400 text-sm">+60 3 2166 8888</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary shrink-0">mail</span>
+<p class="text-gray-400 text-sm">info@enegroup.com</p>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-gray-500 text-sm">© 2024 ENE Group. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-gray-500 hover:text-white text-sm transition-colors" href="#">Privacy Policy</a>
+<a class="text-gray-500 hover:text-white text-sm transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

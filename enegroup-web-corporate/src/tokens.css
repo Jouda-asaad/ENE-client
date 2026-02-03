@@ -1,0 +1,55 @@
+:root {
+    /* Colors */
+    --color-primary: #0000FF;
+    --color-primary-dark: #0A1628;
+    --color-accent-orange: #FFA500;
+    --color-cyan-blue: #0891B2;
+    --color-charcoal: #1A1A1A;
+    --color-dark-bg: #0A0A0A;
+    --color-background-dark: #101922;
+    --color-surface: #222a36;
+    --color-surface-hover: #2a3441;
+    --color-text-white: #FFFFFF;
+    --color-text-gray: #b0b0b0;
+
+    /* Typography */
+    --font-display: 'Inter', sans-serif;
+    --font-heading: 'Montserrat', sans-serif;
+
+    /* Spacing */
+    --section-padding-x: clamp(1rem, 5vw, 10rem);
+    --section-padding-y: 5rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s ease;
+}
+
+body {
+    background-color: var(--color-charcoal);
+    color: var(--color-text-white);
+    font-family: var(--font-display);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    font-family: var(--font-heading);
+}
