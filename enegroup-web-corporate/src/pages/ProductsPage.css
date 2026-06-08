@@ -162,11 +162,9 @@
     font-weight: 600;
 }
 
-/* Products Grid Section */
-.products-grid-section {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
+/* Product List Layout */
+.products-grid-wrapper {
+    animation: fadeIn 0.5s ease-out;
 }
 
 .products-grid {
@@ -517,8 +515,8 @@
     }
 }
 
-/* Brand Showcase Styles */
-.brand-showcase-section {
+/* Main Layout Section */
+.main-content-section {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
@@ -538,10 +536,132 @@
     padding-left: 1rem;
 }
 
+.brand-showcase-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.category-sidebar {
+    flex: 0 0 260px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.category-sidebar-title {
+    color: var(--color-text-white);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-heading);
+}
+
+.category-sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.category-sidebar-item {
+    color: var(--color-text-gray);
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.category-sidebar-item .material-symbols-outlined {
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.category-sidebar-item:hover, 
+.category-sidebar-item.active {
+    background: rgba(255, 107, 0, 0.1);
+    color: var(--color-accent-orange);
+}
+
+.category-sidebar-item:hover .material-symbols-outlined,
+.category-sidebar-item.active .material-symbols-outlined {
+    transform: translateX(4px);
+}
+
+.brand-showcase-container {
+    flex: 1;
+    min-width: 0;
+}
+
 .brand-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
+}
+
+.sidebar-desktop {
+    display: block;
+}
+
+.sidebar-mobile {
+    display: none;
+}
+
+.mobile-category-select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-white);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.mobile-category-select option {
+    background: var(--color-bg-dark);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .brand-showcase-layout {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .category-sidebar {
+        flex: none;
+        width: 100%;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+
+    .sidebar-desktop {
+        display: none;
+    }
+
+    .sidebar-mobile {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
 }
 
 .brand-card {
@@ -582,23 +702,33 @@
 .brand-logo-container {
     width: 100%;
     aspect-ratio: 1;
-    /* Make it square */
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
     margin-bottom: 1rem;
     background: white;
     border-radius: 8px;
     padding: 1rem;
-    /* Kept padding but aspect ratio will give more room vertically */
 }
 
 .brand-logo-container img {
-    width: 80%;
-    /* Force logos to take up more space */
-    height: 80%;
+    max-width: 80%;
+    max-height: 80%;
     object-fit: contain;
     transition: transform 0.3s ease;
+}
+
+/* When multiple logos, give each less space */
+.brand-logo-container img:not(:only-child) {
+    max-width: 45%;
+    max-height: 60%;
+}
+
+.brand-placeholder-icon {
+    font-size: 3rem;
+    color: #ccc;
 }
 
 .brand-card:hover .brand-logo-container img {

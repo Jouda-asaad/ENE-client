@@ -38,17 +38,6 @@ function App() {
 
               {/* Services & Products Preview Unified Section */}
               <section className="unified-preview-section">
-                <div className="services-preview-content">
-                  <div className="accent-bar"></div>
-                  <h2 className="services-preview-title">Our Core Services</h2>
-                  <p className="services-preview-subtitle">
-                    Delivering excellence across the energy value chain with precision engineering and advanced safety solutions.
-                  </p>
-                  <Link to="/services" className="services-preview-cta">
-                    View All Services <span className="material-symbols-outlined">arrow_forward</span>
-                  </Link>
-                </div>
-
                 <div className="products-preview-content">
                   <div className="accent-bar"></div>
                   <h2 className="products-preview-title">Our Premium Products</h2>
@@ -56,7 +45,18 @@ function App() {
                     World-class valves, safety systems, and instrumentation designed for the most demanding environments.
                   </p>
                   <Link to="/products" className="products-preview-cta">
-                    Explore Products <span className="material-symbols-outlined">arrow_forward</span>
+                    Products <span className="material-symbols-outlined">arrow_forward</span>
+                  </Link>
+                </div>
+
+                <div className="services-preview-content">
+                  <div className="accent-bar"></div>
+                  <h2 className="services-preview-title">Our Core Services</h2>
+                  <p className="services-preview-subtitle">
+                    Delivering excellence across the energy value chain with precision engineering and advanced safety solutions.
+                  </p>
+                  <Link to="/services" className="services-preview-cta">
+                    Services <span className="material-symbols-outlined">arrow_forward</span>
                   </Link>
                 </div>
               </section>

@@ -7,42 +7,43 @@ import './ProductsPage.css';
 const ProductsPage = () => {
     const [searchParams] = useSearchParams();
     const [activeFilter, setActiveFilter] = useState('All');
+    const [activeCategory, setActiveCategory] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null); // For Modal
     const [products, setProducts] = useState([]);
+    const [brandShowcaseData, setBrandShowcaseData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchProducts();
+        fetchBrandsShowcase();
     }, []);
 
-    // Brand grouping helper
-    const getBrandsByCategory = () => {
-        const brandsByCategory = {};
-        // We need productCategories from HeaderCorp or similar source of truth.
-        // Since it's not exported, let's redefine the mapping here or pass it in.
-        // For now preventing prop drilling, we'll redefine the categories mapping which matches the header
-        const majorCategories = [
-            { name: 'Pressure Safety Valve', brand: 'Farris', image: '/assets/suppliers/farris.png' },
-            { name: 'Control Valve', brand: 'Dyna-Flo', image: '/assets/suppliers/dyna-flo.png' },
-            { name: 'DBB / Instrument Valve', brand: 'Alco, Sabre', image: '/assets/suppliers/alco-sabre.png' },
-            { name: 'Rupture Disk', brand: 'Continental Disc', image: '/assets/suppliers/continental-disc.png' },
-            { name: 'Fire & Gas Detector', brand: 'Honeywell', image: '/assets/suppliers/honeywell.png' },
-            { name: 'Pressure Regulator', brand: 'Pressure Tech', image: '/assets/suppliers/pressure-tech.png' },
-            { name: 'Corrosion Monitoring', brand: 'Cosasco, Groth', image: '/assets/suppliers/cosasco.png' },
-            { name: 'Gauges', brand: 'Badotherm', image: '/assets/suppliers/badotherm.png' },
-            { name: 'MPFM', brand: 'Pietro Fiorentini', image: '/assets/suppliers/pietro-fiorentini.png' },
-            { name: 'WHCP / CI Skid', brand: 'Wilmax', image: '/assets/suppliers/wilmax.png' },
-            { name: 'Flare System', brand: 'Flare Internusa', image: '/assets/suppliers/flare-internusa.png' },
-            { name: 'Valves', brand: 'Fitok', image: '/assets/suppliers/fitok.png' },
-        ];
-        return majorCategories;
+    // Fetch brands for showcase (flat list, deduplicated by name)
+    const fetchBrandsShowcase = async () => {
+        const { data, error } = await supabase
+            .from('brands')
+            .select('*')
+            .order('name');
+
+        if (error) {
+            console.error('Error fetching brands:', error);
+            return;
+        }
+
+        // Deduplicate by brand name (same brand may appear in multiple categories)
+        const seen = new Set();
+        const uniqueBrands = data.filter(brand => {
+            if (seen.has(brand.name)) return false;
+            seen.add(brand.name);
+            return true;
+        });
+
+        setBrandShowcaseData(uniqueBrands);
     };
 
-    const brandGroups = getBrandsByCategory();
-
-    // Check if we are in "Brand Showcase" mode (Active Filter is 'All' AND no search query)
-    const showBrandShowcase = activeFilter === 'All' && !searchQuery;
+    // Check if we are in "Brand Showcase" mode
+    const showBrandShowcase = activeFilter === 'All' && !searchQuery && !activeCategory;
 
     useEffect(() => {
         const brandParam = searchParams.get('brand');
@@ -65,7 +66,7 @@ const ProductsPage = () => {
         const { data, error } = await supabase
             .from('products')
             .select('*')
-            .order('created_at', { ascending: true }); // Keep roughly original order? Or brand?
+            .order('created_at', { ascending: true });
 
         if (error) {
             console.error('Error fetching products:', error);
@@ -77,6 +78,7 @@ const ProductsPage = () => {
 
     // Calculate derived state from 'products' state
     const brands = ['All', ...new Set(products.map(item => item.brand))];
+    const categoriesList = [...new Set(products.map(item => item.category))].filter(Boolean).sort();
 
     const filteredProducts = products.map(p => ({
         ...p,
@@ -94,8 +96,10 @@ const ProductsPage = () => {
 
         const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             product.category.toLowerCase().includes(searchQuery.toLowerCase());
+            
+        const matchesCat = activeCategory ? product.category === activeCategory : true;
 
-        return matchesBrand && matchesSearch;
+        return matchesBrand && matchesSearch && matchesCat;
     });
 
     if (loading) {
@@ -126,7 +130,7 @@ const ProductsPage = () => {
                             className="search-input"
                             placeholder="Search products..."
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => { setSearchQuery(e.target.value); setActiveCategory(''); }}
                         />
                     </div>
 
@@ -136,7 +140,7 @@ const ProductsPage = () => {
                             <button
                                 key={brand}
                                 className={`filter-btn ${activeFilter === brand ? 'active' : ''}`}
-                                onClick={() => setActiveFilter(brand)}
+                                onClick={() => { setActiveFilter(brand); setActiveCategory(''); }}
                             >
                                 {brand === 'Alco, Sabre' ? 'Alco & Sabre' : brand}  {/* Simple clean up for display logic */}
                             </button>
@@ -145,92 +149,145 @@ const ProductsPage = () => {
                 </div>
             </section>
 
-            {/* Products Grid */}
-            {/* Brand Showcase Section (Shown only when 'All' is selected and no search) */}
-            {showBrandShowcase && (
-                <section className="brand-showcase-section">
-                    <div className="brand-showcase-container">
-                        <h2 className="section-heading">Browse our Brands</h2>
-                        <div className="brand-grid">
-                            {brandGroups.map((group, index) => (
-                                <div
-                                    key={index}
-                                    className="brand-card"
-                                    onClick={() => setActiveFilter(group.brand)}
+            {/* Main Content Layout */}
+            <section className="main-content-section">
+                <div className="brand-showcase-layout">
+                    {/* Category Sidebar (Persists across views) */}
+                    <aside className="category-sidebar">
+                        {/* Desktop List View */}
+                        <div className="sidebar-desktop">
+                            <h3 className="category-sidebar-title">Categories</h3>
+                            <ul className="category-sidebar-list">
+                                <li 
+                                    className={`category-sidebar-item ${!activeCategory && showBrandShowcase ? 'active' : ''}`}
+                                    onClick={() => { setActiveCategory(''); setActiveFilter('All'); setSearchQuery(''); }}
                                 >
-                                    <div className="brand-logo-container">
-                                        <img src={group.image} alt={group.brand} loading="lazy" />
-                                    </div>
-                                    <div className="brand-info">
-                                        <h3 className="brand-category-title">{group.name}</h3>
-                                        <div className="brand-list">
-                                            {group.brand.split(',').map((brand, bIndex) => (
-                                                <span key={bIndex} className="brand-list-item">
-                                                    {brand.trim()}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                                    <span className="material-symbols-outlined">grid_view</span>
+                                    All Brands
+                                </li>
+                                {categoriesList.map(cat => (
+                                    <li 
+                                        key={cat} 
+                                        className={`category-sidebar-item ${activeCategory === cat ? 'active' : ''}`}
+                                        onClick={() => { setActiveCategory(cat); setActiveFilter('All'); setSearchQuery(''); }}
+                                    >
+                                        <span className="material-symbols-outlined">chevron_right</span>
+                                        {cat}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    </div>
-                </section>
-            )}
 
-            {/* Products Grid - Only shown when NOT in showcase mode */}
-            {!showBrandShowcase && (
-                <section className="products-grid-section">
-                    <div className="products-grid">
-                        <AnimatePresence mode='popLayout'>
-                            {filteredProducts.map((product) => (
-                                <motion.div
-                                    key={product.id}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="product-card"
-                                >
-                                    <div className="product-image-wrapper">
-                                        <div className="product-brand-badge">{product.brand}</div>
-                                        <img
-                                            src={product.image}
-                                            alt={product.name}
-                                            className="product-image"
-                                            loading="lazy"
-                                        />
-                                        <div className="product-overlay">
-                                            <button
-                                                className="view-details-btn"
-                                                onClick={() => handleProductClick(product)}
-                                            >
-                                                View Details
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="product-info">
-                                        <span className="product-category">{product.category}</span>
-                                        <span className="product-brand-name">{product.brand}</span>
-                                        <h3 className="product-title">{product.name}</h3>
+                        {/* Mobile Dropdown View */}
+                        <div className="sidebar-mobile">
+                            <select 
+                                className="mobile-category-select"
+                                value={activeCategory}
+                                onChange={(e) => {
+                                    const cat = e.target.value;
+                                    setActiveCategory(cat);
+                                    setActiveFilter('All');
+                                    setSearchQuery('');
+                                }}
+                            >
+                                <option value="">All Brands</option>
+                                {categoriesList.map(cat => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </aside>
 
-                                        <div className="product-actions">
-                                            <a
-                                                href={`/contact?subject=${encodeURIComponent(`Quote Request: ${product.name}`)}&details=${encodeURIComponent(`Product: ${product.name}, Brand: ${product.brand}, Category: ${product.category}`)}`}
-                                                className="get-quote-btn"
-                                            >
-                                                Get a Quote
-                                                <span className="material-symbols-outlined">arrow_forward</span>
-                                            </a>
+                    {/* Content Area (Switches between Brand Showcase and Product Grid) */}
+                    <div className="brand-showcase-container">
+                        {showBrandShowcase ? (
+                            <>
+                                <h2 className="section-heading">Browse our Brands</h2>
+                                <div className="brand-grid">
+                                    {brandShowcaseData.map((brand) => (
+                                        <div
+                                            key={brand.id}
+                                            className="brand-card"
+                                            onClick={() => { setActiveFilter(brand.name); setActiveCategory(''); }}
+                                        >
+                                            <div className="brand-logo-container">
+                                                {brand.logo_url ? (
+                                                    <img src={brand.logo_url} alt={brand.name} loading="lazy" />
+                                                ) : (
+                                                    <span className="material-symbols-outlined brand-placeholder-icon">category</span>
+                                                )}
+                                            </div>
+                                            <div className="brand-info">
+                                                <h3 className="brand-category-title">{brand.name}</h3>
+                                            </div>
                                         </div>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <div className="products-grid-wrapper">
+                                <h2 className="section-heading" style={{ marginBottom: '2rem' }}>
+                                    {activeCategory ? `Products: ${activeCategory}` : (searchQuery ? `Search Results: "${searchQuery}"` : 'All Products')}
+                                </h2>
+                                <div className="products-grid">
+                                    <AnimatePresence mode='popLayout'>
+                                        {filteredProducts.map((product) => (
+                                            <motion.div
+                                                key={product.id}
+                                                layout
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                                transition={{ duration: 0.3 }}
+                                                className="product-card"
+                                            >
+                                                <div className="product-image-wrapper">
+                                                    <div className="product-brand-badge">{product.brand}</div>
+                                                    <img
+                                                        src={product.image}
+                                                        alt={product.name}
+                                                        className="product-image"
+                                                        loading="lazy"
+                                                    />
+                                                    <div className="product-overlay">
+                                                        <button
+                                                            className="view-details-btn"
+                                                            onClick={() => handleProductClick(product)}
+                                                        >
+                                                            View Details
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="product-info">
+                                                    <span className="product-category">{product.category}</span>
+                                                    <span className="product-brand-name">{product.brand}</span>
+                                                    <h3 className="product-title">{product.name}</h3>
+
+                                                    <div className="product-actions">
+                                                        <a
+                                                            href={`/contact?subject=${encodeURIComponent(`Quote Request: ${product.name}`)}&details=${encodeURIComponent(`Product: ${product.name}, Brand: ${product.brand}, Category: ${product.category}`)}`}
+                                                            className="get-quote-btn"
+                                                        >
+                                                            Get a Quote
+                                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
+                                </div>
+                                {filteredProducts.length === 0 && (
+                                    <div className="no-products-message" style={{ textAlign: 'center', padding: '3rem', color: '#888', background: 'rgba(255,255,255,0.02)', borderRadius: '12px' }}>
+                                        <h3>No products found</h3>
+                                        <p>Try adjusting your search or category filters.</p>
                                     </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
+                                )}
+                            </div>
+                        )}
                     </div>
-                </section>
-            )}
+                </div>
+            </section>
             {/* Product Modal */}
             <AnimatePresence>
                 {selectedProduct && (
@@ -261,7 +318,7 @@ const ProductsPage = () => {
                                     <span className="modal-category">{selectedProduct.category}</span>
                                     <h2 className="modal-title">{selectedProduct.name}</h2>
                                     <p className="modal-description">
-                                        High-performance {selectedProduct.category.toLowerCase()} designed for optimal reliability and safety in demanding industrial environments.
+                                        {selectedProduct.description || `High-performance ${selectedProduct.category.toLowerCase()} designed for optimal reliability and safety in demanding industrial environments.`}
                                     </p>
 
                                     <div className="modal-actions">

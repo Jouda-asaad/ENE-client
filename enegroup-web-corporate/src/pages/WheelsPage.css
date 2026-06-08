@@ -59,11 +59,37 @@
 }
 
 .wheels-hero-subtitle {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
     font-weight: 300;
     color: #d1d5db;
-    line-height: 1.6;
+    line-height: 1.7;
     max-width: 650px;
+}
+
+.wheels-hero-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #e5e7eb;
+    font-weight: 400;
+}
+
+.hero-feature .material-symbols-outlined {
+    font-size: 1.2rem;
+    color: var(--color-accent-orange);
 }
 
 .info-link {
