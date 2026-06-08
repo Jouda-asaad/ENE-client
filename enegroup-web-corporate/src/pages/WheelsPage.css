@@ -188,3 +188,65 @@
     color: #ffb733;
     text-decoration: underline;
 }
+
+/* Info & Social Grid Layout */
+.info-social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.social-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-column .capabilities-grid {
+    grid-template-columns: 1fr;
+    flex-grow: 1;
+}
+
+.social-column .capabilities-grid {
+    grid-template-columns: 1fr 1fr;
+    flex-grow: 1;
+}
+
+/* Ensure capability cards stretch to fill available height */
+.info-social-grid .capability-card {
+    height: 100%;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .info-social-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9ca3af;
+}
+
+.scroll-text {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}

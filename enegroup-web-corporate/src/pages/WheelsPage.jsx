@@ -95,39 +95,55 @@ const WheelsPage = () => {
                         <p className="wheels-hero-subtitle">Imported Used Car Dealer</p>
                     </motion.div>
                 </div>
+                
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="scroll-indicator"
+                >
+                    <span className="scroll-text">SCROLL</span>
+                    <span className="material-symbols-outlined">keyboard_arrow_down</span>
+                </motion.div>
             </section>
 
-            {/* Company Info */}
-            <section className="capabilities-section">
-                <h2 className="section-title animate-on-scroll fade-up">About Us</h2>
-                <p className="section-subtitle animate-on-scroll fade-up delay-100">Premium imported used cars at Dataran Pandan Prima.</p>
+            {/* Info & Social Section */}
+            <section className="info-social-section capabilities-section">
+                <div className="info-social-grid">
+                    {/* About Us Column */}
+                    <div className="info-column">
+                        <h2 className="section-title animate-on-scroll fade-up">About Us</h2>
+                        <p className="section-subtitle animate-on-scroll fade-up delay-100">Premium imported used cars at Dataran Pandan Prima.</p>
+                        <div className="capabilities-grid">
+                            {infoCards.map((item, index) => (
+                                <a href={item.link} target={item.link.startsWith('http') ? "_blank" : "_self"} rel={item.link.startsWith('http') ? "noopener noreferrer" : ""} key={index} className="capability-card glass-panel animate-on-scroll fade-up info-link" style={{ transitionDelay: `${index * 100}ms` }}>
+                                    <div className="icon-wrapper">
+                                        {item.svg
+                                            ? <div style={{ color: '#25D366' }}>{item.svg}</div>
+                                            : <span className="material-symbols-outlined">{item.icon}</span>
+                                        }
+                                    </div>
+                                    <h4>{item.title}</h4>
+                                    <p>{item.desc}</p>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
 
-                <div className="capabilities-grid">
-                    {infoCards.map((item, index) => (
-                        item.link.startsWith('http') ? (
-                            <a href={item.link} target="_blank" rel="noopener noreferrer" key={index} className="capability-card glass-panel animate-on-scroll fade-up info-link" style={{ transitionDelay: `${index * 100}ms` }}>
-                                <div className="icon-wrapper">
-                                    {item.svg
-                                        ? <div style={{ color: '#25D366' }}>{item.svg}</div>
-                                        : <span className="material-symbols-outlined">{item.icon}</span>
-                                    }
-                                </div>
-                                <h4>{item.title}</h4>
-                                <p>{item.desc}</p>
-                            </a>
-                        ) : (
-                            <a href={item.link} key={index} className="capability-card glass-panel animate-on-scroll fade-up info-link" style={{ transitionDelay: `${index * 100}ms` }}>
-                                <div className="icon-wrapper">
-                                    {item.svg
-                                        ? <div style={{ color: '#25D366' }}>{item.svg}</div>
-                                        : <span className="material-symbols-outlined">{item.icon}</span>
-                                    }
-                                </div>
-                                <h4>{item.title}</h4>
-                                <p>{item.desc}</p>
-                            </a>
-                        )
-                    ))}
+                    {/* Social Media Column */}
+                    <div className="social-column">
+                        <h2 className="section-title animate-on-scroll fade-up">Connect With Us</h2>
+                        <p className="section-subtitle animate-on-scroll fade-up delay-100">Follow us for the latest arrivals and updates.</p>
+                        <div className="social-grid capabilities-grid">
+                            {socialLinks.map((link, index) => (
+                                <a href={link.url} target="_blank" rel="noopener noreferrer" key={index} className="social-card capability-card glass-panel animate-on-scroll fade-up" style={{ transitionDelay: `${index * 100}ms` }}>
+                                    <div className="svg-icon-wrapper" style={{ color: 'var(--color-accent-orange)', marginBottom: '1rem' }}>
+                                        {link.svg}
+                                    </div>
+                                    <h4>{link.platform}</h4>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -185,21 +201,6 @@ const WheelsPage = () => {
                 </div>
             )}
 
-            {/* Social Media Section */}
-            <section className="social-media-section capabilities-section">
-                <h2 className="section-title animate-on-scroll fade-up">Connect With Us</h2>
-                <p className="section-subtitle animate-on-scroll fade-up delay-100">Follow us for the latest arrivals and updates.</p>
-                <div className="social-grid capabilities-grid">
-                     {socialLinks.map((link, index) => (
-                        <a href={link.url} target="_blank" rel="noopener noreferrer" key={index} className="social-card capability-card glass-panel animate-on-scroll fade-up" style={{ transitionDelay: `${index * 100}ms` }}>
-                             <div className="svg-icon-wrapper" style={{ color: 'var(--color-accent-orange)', marginBottom: '1rem' }}>
-                                {link.svg}
-                            </div>
-                            <h4>{link.platform}</h4>
-                        </a>
-                    ))}
-                </div>
-            </section>
 
             {/* Google Maps Section */}
             <section id="map-section" className="map-section capabilities-section">
