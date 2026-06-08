@@ -131,6 +131,12 @@ const HeaderCorp = () => {
                                 </div>
                             </div>
                         </li>
+                        
+                        <li className="nav-item">
+                            <Link to="/wheels" className={`nav-link ${isActive('/wheels')}`}>
+                                ENE WHEELS
+                            </Link>
+                        </li>
 
 
                     </ul>
@@ -184,6 +190,7 @@ const HeaderCorp = () => {
                                 </div>
                             </div>
                         </li>
+                        <li><Link to="/wheels" className={`mobile-nav-link ${isActive('/wheels')}`} onClick={closeMobileMenu}>ENE WHEELS</Link></li>
                     </ul>
                     <div className="mobile-actions">
                         <Link to="/contact" className="btn-contact-orange" onClick={closeMobileMenu}>

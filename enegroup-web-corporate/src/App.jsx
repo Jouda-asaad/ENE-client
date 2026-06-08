@@ -15,6 +15,7 @@ import ContactPage from './pages/ContactPage';
 import ScrollToTop from './components/ScrollToTop';
 import AdminLogin from './pages/AdminLogin';
 import AdminCMS from './pages/AdminCMS';
+import WheelsPage from './pages/WheelsPage';
 import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
 
@@ -68,6 +69,7 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/wheels" element={<WheelsPage />} />
           <Route path="/projects" element={<div style={{ paddingTop: '80px', color: 'white', textAlign: 'center' }}>Projects Page (Placeholder)</div>} />
           <Route path="/investors" element={<div style={{ paddingTop: '80px', color: 'white', textAlign: 'center' }}>Investors Page (Placeholder)</div>} />
           <Route path="/contact" element={<ContactPage />} />

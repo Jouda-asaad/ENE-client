@@ -77,7 +77,11 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    margin: 0;
+    pointer-events: none;
+}
+
+.main-nav .nav-list {
+    pointer-events: auto;
 }
 
 .nav-list {

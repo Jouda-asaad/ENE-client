@@ -9,6 +9,7 @@ const AdminCMS = () => {
     const [editingProduct, setEditingProduct] = useState(null);
     const [isCreating, setIsCreating] = useState(false);
     const [previewImage, setPreviewImage] = useState(null); // URL for full screen preview
+    const [activeTab, setActiveTab] = useState('industrial'); // 'industrial' | 'wheels'
     const navigate = useNavigate();
 
     // Form states
@@ -54,8 +55,13 @@ const AdminCMS = () => {
     const uniqueBrands = [...new Set(products.map(p => p.brand))].sort();
     const uniqueCategories = [...new Set(products.map(p => p.category))].sort();
 
+    const filteredProducts = products.filter(p => {
+        if (activeTab === 'industrial') return p.category !== 'Car' && p.category !== 'Vehicle';
+        return p.category === 'Car' || p.category === 'Vehicle';
+    });
+
     const openCreate = () => {
-        setFormData({ id: '', brand: '', category: '', name: '', original_link: '', image_file: null });
+        setFormData({ id: '', brand: '', category: activeTab === 'wheels' ? 'Car' : '', name: '', original_link: '', image_file: null });
         setEditingProduct(null);
         setIsCreating(true);
     };
@@ -149,9 +155,13 @@ const AdminCMS = () => {
     return (
         <div className="admin-cms">
             <header className="cms-header">
-                <h1>Product CMS</h1>
+                <h1>{activeTab === 'industrial' ? 'Product CMS' : 'Wheels CMS'}</h1>
+                <div className="cms-tabs" style={{ display: 'flex', gap: '1rem', marginLeft: '2rem', flex: 1 }}>
+                    <button style={{ padding: '0.5rem 1rem', background: activeTab === 'industrial' ? 'var(--color-accent-orange)' : 'transparent', color: activeTab === 'industrial' ? '#000' : '#fff', border: '1px solid var(--color-accent-orange)', borderRadius: '4px', cursor: 'pointer' }} onClick={() => setActiveTab('industrial')}>Industrial</button>
+                    <button style={{ padding: '0.5rem 1rem', background: activeTab === 'wheels' ? 'var(--color-accent-orange)' : 'transparent', color: activeTab === 'wheels' ? '#000' : '#fff', border: '1px solid var(--color-accent-orange)', borderRadius: '4px', cursor: 'pointer' }} onClick={() => setActiveTab('wheels')}>ENE Wheels</button>
+                </div>
                 <div className="cms-actions">
-                    <button onClick={openCreate} className="btn-primary">Add New Product</button>
+                    <button onClick={openCreate} className="btn-primary">Add New {activeTab === 'industrial' ? 'Product' : 'Car'}</button>
                     <button onClick={handleLogout} className="btn-secondary">Logout</button>
                 </div>
             </header>
@@ -266,7 +276,7 @@ const AdminCMS = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map(product => (
+                        {filteredProducts.map(product => (
                             <tr key={product.id}>
                                 <td>
                                     {product.image_url && (
