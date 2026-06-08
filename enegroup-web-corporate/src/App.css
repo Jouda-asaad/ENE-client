@@ -1,0 +1,97 @@
+/* Services & Products Preview Sections on Homepage */
+.unified-preview-section {
+    padding: 6rem var(--section-padding-x);
+    background: linear-gradient(180deg, #142337 0%, #1a3045 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    /* Spacing between the two content blocks */
+    overflow: hidden;
+}
+
+.unified-preview-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+.services-preview-content,
+.products-preview-content {
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.services-preview-content .accent-bar,
+.products-preview-content .accent-bar {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-orange));
+    margin: 0 auto 1.5rem;
+    border-radius: 2px;
+}
+
+.services-preview-title,
+.products-preview-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.services-preview-subtitle,
+.products-preview-subtitle {
+    color: #9ca3af;
+    font-size: 1.125rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.services-preview-cta,
+.products-preview-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: 1px solid var(--color-accent-gold);
+    color: var(--color-accent-gold);
+    font-weight: 600;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background 0.3s ease, color 0.3s ease, gap 0.3s ease;
+}
+
+.services-preview-cta:hover,
+.products-preview-cta:hover {
+    background: var(--color-accent-gold);
+    color: var(--color-primary-dark);
+    gap: 1rem;
+}
+
+.services-preview-cta span,
+.products-preview-cta span {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.services-preview-cta:hover span,
+.products-preview-cta:hover span {
+    transform: translateX(4px);
+}

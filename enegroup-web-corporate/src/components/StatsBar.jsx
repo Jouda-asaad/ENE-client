@@ -5,7 +5,7 @@ import './StatsBar.css';
 const stats = [
     { value: "23+", label: "Years Experience" },
     { value: "500+", label: "Projects Delivered" },
-    { value: "$50M+", label: "Equipment Value" },
+    { value: "RM50M+", label: "Equipment Value" },
     { value: "100+", label: "Industry Experts" }
 ];
 

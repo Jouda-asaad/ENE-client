@@ -3,7 +3,13 @@
     --color-primary: #0000FF;
     --color-primary-dark: #0A1628;
     --color-accent-orange: #FFA500;
+    --color-accent-gold: #d4a574;
     --color-cyan-blue: #0891B2;
+
+    /* Glassmorphism */
+    --glass-bg: rgba(26, 45, 74, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     --color-charcoal: #1A1A1A;
     --color-dark-bg: #0A0A0A;
     --color-background-dark: #101922;
@@ -31,12 +37,15 @@
     --transition-medium: 0.3s ease;
 }
 
+
+
 body {
-    background-color: var(--color-charcoal);
+    background-color: var(--color-background-dark);
     color: var(--color-text-white);
     font-family: var(--font-display);
     margin: 0;
     overflow-x: hidden;
+    transition: background-color var(--transition-medium), color var(--transition-medium);
 }
 
 h1,

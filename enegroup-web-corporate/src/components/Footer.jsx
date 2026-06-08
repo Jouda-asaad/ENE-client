@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
@@ -8,12 +9,12 @@ const Footer = () => {
                 <div className="footer-grid">
                     {/* Brand Column */}
                     <div className="footer-col brand-col">
-                        <div className="footer-logo">
+                        <Link to="/" className="footer-logo">
                             <div className="bg-primary rounded p-1">
                                 <img src="/assets/logos/ENE.png" alt="ENE Group" className="footer-logo-icon" />
                             </div>
                             <span className="footer-logo-text">ENE Group</span>
-                        </div>
+                        </Link>
                         <p className="footer-desc">
                             Your trusted partner in offshore engineering and industrial power solutions. Delivering excellence since 2001.
                         </p>
@@ -28,11 +29,12 @@ const Footer = () => {
                     <div className="footer-col">
                         <h4 className="footer-heading">Quick Links</h4>
                         <div className="footer-links">
-                            <a href="#" className="footer-link">About Us</a>
-                            <a href="#" className="footer-link">Services</a>
-                            <a href="#" className="footer-link">Projects Gallery</a>
-                            <a href="#" className="footer-link">Investor Relations</a>
-                            <a href="#" className="footer-link">Careers</a>
+                            <Link to="/" className="footer-link">Home</Link>
+                            <Link to="/services" className="footer-link">Services</Link>
+                            <Link to="/" className="footer-link">About Us</Link>
+                            <Link to="/" className="footer-link">Projects Gallery</Link>
+                            <Link to="/" className="footer-link">Investor Relations</Link>
+                            <Link to="/" className="footer-link">Careers</Link>
                         </div>
                     </div>
 
@@ -40,10 +42,10 @@ const Footer = () => {
                     <div className="footer-col">
                         <h4 className="footer-heading">Our Services</h4>
                         <div className="footer-links">
-                            <a href="#" className="footer-link">Engineering Design</a>
-                            <a href="#" className="footer-link">Project Management</a>
-                            <a href="#" className="footer-link">Equipment Rental</a>
-                            <a href="#" className="footer-link">Maintenance & Support</a>
+                            <Link to="/services#service-01" className="footer-link">Engineering Consultation</Link>
+                            <Link to="/services#service-02" className="footer-link">3D Fire & Gas Mapping</Link>
+                            <Link to="/services#service-03" className="footer-link">Valve Servicing & Testing</Link>
+                            <Link to="/services#service-04" className="footer-link">On-Site Servicing & Testing</Link>
                         </div>
                     </div>
 

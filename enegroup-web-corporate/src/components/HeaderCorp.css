@@ -1,136 +1,518 @@
-.header {
+/* HeaderCorp.css */
+/* Note: Variables are imported from tokens.css in parent scope */
+
+.header-corp {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 80px;
+    /* Standardize height */
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all var(--transition-medium);
-    background: rgba(10, 22, 40, 0.8);
+    background: transparent;
+    transition: background-color var(--transition-medium), backdrop-filter var(--transition-medium), border-bottom var(--transition-medium);
+    border-bottom: 1px solid transparent;
+}
+
+.header-corp.scrolled {
+    background: rgba(15, 23, 42, 0.9);
+    /* Darker, slightly more opaque for scrolled state */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    overflow: hidden;
-}
-
-.header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 350px;
-    height: 100%;
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
-    clip-path: polygon(0 0, 100% 0, 70% 100%, 0% 100%);
-    z-index: 0;
-}
-
-.header.scrolled {
-    background: rgba(10, 22, 40, 0.95);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.header.scrolled::before {
-    opacity: 0.9;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem var(--section-padding-x);
-    height: 80px;
+    padding: 0 var(--section-padding-x);
     position: relative;
-    z-index: 1;
+    /* For the slanted accent positioning if needed */
 }
 
-.logo {
+/* Slanted Orange Accent Background */
+/* This creates the signature ENE Group visual behind the logo area */
+.logo-container {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
     position: relative;
-    z-index: 2;
+    z-index: 10;
+    padding: 0 1rem;
+    height: 100%;
 }
 
-.logo .bg-primary {
-    background-color: transparent !important;
-    padding: 0 !important;
+/* The slanted background element */
+.logo-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100vw;
+    /* Extend far left to cover edge */
+    right: -2rem;
+    /* Extend slightly right of logo */
+    height: 100%;
+    background: var(--color-accent-orange);
+    transform: skewX(-20deg);
+    transform-origin: top;
+    z-index: -1;
+    /* Only show if requested, usually this is persistent or scroll-dependent. 
+       Assuming it should always be there based on "signature style". */
 }
 
-.logo-icon {
-    width: 40px;
-    height: auto;
-    filter: brightness(1.1);
+.header-logo-img {
+    height: 48px;
+    /* Slightly larger for impact */
+    width: auto;
+    object-fit: contain;
 }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--color-text-white);
-    letter-spacing: -0.02em;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+/* Navigation - Desktop */
+.main-nav {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
 }
 
-.nav-desktop {
-    display: none;
+.nav-list {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    /* Fix vertical alignment */
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
 }
 
 .nav-link {
-    color: var(--color-text-gray);
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color var(--transition-fast);
-}
-
-.nav-link:hover {
     color: var(--color-text-white);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    transition: color var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    text-transform: uppercase;
+    white-space: nowrap;
+    /* Ensure one line */
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
 }
 
-.cta-button {
+/* Glow Animation Keyframes */
+@keyframes orangeGlow {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 165, 0, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(255, 165, 0, 0);
+    }
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-accent-orange);
+}
+
+
+
+.nav-link:hover,
+.nav-link.active.glow-active {
+    text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+}
+
+
+
+/* Dropdown */
+.dropdown-container {
+    position: relative;
+    /* height: 100%; removed to allow flex vertical centering from parent */
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 65px;
+    /* Moved up for better hover target */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(10, 14, 23, 0.95);
+    /* Darker, solid-ish background */
+    border: 1px solid var(--glass-border);
+    border-top: 2px solid var(--color-accent-orange);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 2.5rem 2rem 2rem;
+    /* Added top padding to compensate */
+    min-width: 900px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    z-index: 1100;
+}
+
+/* Invisible bridge to prevent pointer-events gap */
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: transparent;
+}
+
+.dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.dropdown-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    height: 100%;
+}
+
+.dropdown-item.text-only {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+    border-color: rgba(255, 107, 0, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Removed .dropdown-img-wrapper styles as requested */
+
+.dropdown-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-cat {
+    color: var(--color-text-white);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+}
+
+.product-brand {
+    color: var(--color-text-gray);
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+}
+
+
+/* Mobile Accordion Styles */
+.mobile-dropdown-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.mobile-chevron {
+    color: var(--color-text-white);
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.mobile-chevron.rotate {
+    transform: rotate(180deg);
+    color: var(--color-accent-orange);
+}
+
+.mobile-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    width: 100%;
+    opacity: 0;
+}
+
+.mobile-dropdown-content.open {
+    max-height: 40vh;
+    /* Scrollable area limit */
+    opacity: 1;
+    margin-top: 1rem;
+    overflow-y: auto;
+    /* Enable scroll */
+    scrollbar-width: thin;
+    /* Firefox */
+    scrollbar-color: var(--color-accent-orange) rgba(255, 255, 255, 0.1);
+}
+
+/* Webkit scrollbar for mobile menu */
+.mobile-dropdown-content.open::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mobile-dropdown-content.open::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-dropdown-content.open::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent-orange);
+    border-radius: 4px;
+}
+
+.mobile-products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.mobile-product-item {
+    padding: 0.75rem;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.mobile-product-item:last-child {
+    border-bottom: none;
+}
+
+.mp-name {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.mp-brand {
+    color: #aaa;
+    font-size: 0.8rem;
+}
+
+/* Contact Button */
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn-contact-orange {
+    background: var(--color-accent-orange);
+    color: var(--color-primary-dark);
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    white-space: nowrap;
+}
+
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-white);
+    padding: 0.5rem;
+    margin-right: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
-    padding: 0 1.25rem;
-    background-color: var(--color-accent-orange);
-    color: white;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: none;
-    transition: background-color var(--transition-fast);
+    border-radius: 50%;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.cta-button:hover {
-    background-color: #e65100;
+.theme-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-accent-orange);
 }
 
-.mobile-menu-btn {
-    display: block;
-    background: none;
+.theme-toggle-btn .material-symbols-outlined {
+    font-size: 1.5rem;
+}
+
+.btn-contact-orange:hover {
+    background: #ffb733;
+    /* Slightly lighter orange */
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Hamburger Menu (Hidden on Desktop) */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 32px;
+    height: 24px;
+    background: transparent;
     border: none;
-    color: white;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0;
+    z-index: 1001;
 }
 
-@media (min-width: 768px) {
-    .header::before {
-        width: 450px;
-    }
+.hamburger-line {
+    width: 32px;
+    height: 3px;
+    background: var(--color-text-white);
+    border-radius: 2px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 2.5px;
+    /* Slight adjustment for rotation */
 }
 
-@media (min-width: 1024px) {
-    .nav-desktop {
-        display: flex;
-        gap: 2rem;
-    }
+/* Hamburger Animation State */
+.hamburger-menu.open .hamburger-line:first-child {
+    transform: rotate(45deg);
+    background: var(--color-accent-orange);
+}
 
-    .mobile-menu-btn {
+.hamburger-menu.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg);
+    background: var(--color-accent-orange);
+}
+
+/* Mobile Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(16, 25, 34, 0.98);
+    /* Deep dark blue match */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    /* Added visibility for better a11y hiding */
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.mobile-nav-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.mobile-nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-nav-link {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    /* ~24px */
+    color: var(--color-text-white);
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    color: var(--color-accent-orange);
+    transform: scale(1.05);
+    /* Slight grow effect */
+}
+
+.mobile-actions {
+    margin-top: 4rem;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+
+    .main-nav,
+    .header-actions {
         display: none;
     }
 
-    .header::before {
-        width: 500px;
-        clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .header-container {
+        padding: 0 1.5rem;
+    }
+
+    .logo-container::before {
+        /* Adjust logic for mobile if needed, usually we keep the branding */
+        right: -1.5rem;
+        transform: skewX(-15deg);
+        /* Slightly less skew on mobile */
     }
 }

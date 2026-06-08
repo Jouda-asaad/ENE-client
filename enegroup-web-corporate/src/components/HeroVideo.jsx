@@ -32,18 +32,8 @@ const HeroVideo = () => {
 
     return (
         <section className="hero-video">
-            <video
-                id="hero-bg-video"
-                key={videos[currentVideoIndex]} // Key prop forces re-render on change
-                autoPlay
-                muted
-                playsInline
-                className="hero-video-bg"
-                onEnded={handleVideoEnded}
-            >
-                <source src={videos[currentVideoIndex]} type="video/webm" />
-                {/* Fallback for browsers that don't support webm if needed, but we only have webm */}
-            </video>
+            {/* Video is now handled globally by VideoBackground.jsx */}
+
 
             <div className="hero-overlay-gradient"></div>
             <div className="hero-overlay-dark"></div>
