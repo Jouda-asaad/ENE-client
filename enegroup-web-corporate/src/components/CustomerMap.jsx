@@ -159,38 +159,6 @@ const CustomerMap = () => {
                     </div>
                 </div>
 
-                {/* Mobile Accordion View (Kept as fallback/list view) */}
-                <div className="mobile-accordion-container mobile-only">
-                    {customerCategories.map((category) => (
-                        <div key={`mobile-${category.id}`} className={`accordion-item ${activeCategory === category.id ? 'active' : ''}`}>
-                            <div className="accordion-header" onClick={() => toggleCategory(category.id)}>
-                                <h3>{category.name}</h3>
-                                <span className="material-symbols-outlined icon">
-                                    {activeCategory === category.id ? 'expand_less' : 'expand_more'}
-                                </span>
-                            </div>
-                            <AnimatePresence>
-                                {activeCategory === category.id && (
-                                    <motion.div 
-                                        className="accordion-body"
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <div className="logo-grid mobile-grid">
-                                            {category.customers.map((customer, idx) => (
-                                                <div key={idx} className="logo-item">
-                                                    <img src={customer.logo} alt={`${customer.name} logo`} />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    ))}
-                </div>
 
             </div>
         </section>

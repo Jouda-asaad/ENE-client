@@ -163,7 +163,7 @@ const ProductsPage = () => {
                                     onClick={() => { setActiveCategory(''); setActiveFilter('All'); setSearchQuery(''); }}
                                 >
                                     <span className="material-symbols-outlined">grid_view</span>
-                                    All Brands
+                                    All Categories
                                 </li>
                                 {categoriesList.map(cat => (
                                     <li 
@@ -190,7 +190,7 @@ const ProductsPage = () => {
                                     setSearchQuery('');
                                 }}
                             >
-                                <option value="">All Brands</option>
+                                <option value="">All Categories</option>
                                 {categoriesList.map(cat => (
                                     <option key={cat} value={cat}>{cat}</option>
                                 ))}
