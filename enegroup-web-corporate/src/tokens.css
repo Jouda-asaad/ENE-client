@@ -1,20 +1,20 @@
 :root {
     /* Colors */
-    --color-primary: #0000FF;
-    --color-primary-dark: #0A1628;
-    --color-accent-orange: #FFA500;
-    --color-accent-gold: #d4a574;
+    --color-primary: #FF5A09;
+    --color-primary-dark: #061331;
+    --color-accent-orange: #FF5A09;
+    --color-accent-gold: #FF5A09;
     --color-cyan-blue: #0891B2;
 
     /* Glassmorphism */
-    --glass-bg: rgba(26, 45, 74, 0.6);
+    --glass-bg: rgba(6, 19, 49, 0.6);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    --color-charcoal: #1A1A1A;
-    --color-dark-bg: #0A0A0A;
-    --color-background-dark: #101922;
-    --color-surface: #222a36;
-    --color-surface-hover: #2a3441;
+    --color-charcoal: #0a1a3d;
+    --color-dark-bg: #061331;
+    --color-background-dark: #061331;
+    --color-surface: #0d1f4a;
+    --color-surface-hover: #132856;
     --color-text-white: #FFFFFF;
     --color-text-gray: #b0b0b0;
 

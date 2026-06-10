@@ -1,7 +1,7 @@
 /* Services & Products Preview Sections on Homepage */
 .unified-preview-section {
     padding: 6rem var(--section-padding-x);
-    background: linear-gradient(180deg, #142337 0%, #1a3045 100%);
+    background: linear-gradient(180deg, #0d1f4a 0%, #061331 100%);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
 .products-preview-content .accent-bar {
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-orange));
+    background: linear-gradient(90deg, #FF5A09, #ff7a3b);
     margin: 0 auto 1.5rem;
     border-radius: 2px;
 }

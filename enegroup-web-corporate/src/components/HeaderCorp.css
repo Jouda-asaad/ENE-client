@@ -15,7 +15,7 @@
 }
 
 .header-corp.scrolled {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(6, 19, 49, 0.9);
     /* Darker, slightly more opaque for scrolled state */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -124,15 +124,15 @@
 /* Glow Animation Keyframes */
 @keyframes orangeGlow {
     0% {
-        box-shadow: 0 0 5px rgba(255, 165, 0, 0);
+        box-shadow: 0 0 5px rgba(255, 90, 9, 0);
     }
 
     50% {
-        box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+        box-shadow: 0 0 15px rgba(255, 90, 9, 0.4);
     }
 
     100% {
-        box-shadow: 0 0 5px rgba(255, 165, 0, 0);
+        box-shadow: 0 0 5px rgba(255, 90, 9, 0);
     }
 }
 
@@ -145,7 +145,7 @@
 
 .nav-link:hover,
 .nav-link.active.glow-active {
-    text-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+    text-shadow: 0 0 8px rgba(255, 90, 9, 0.6);
 }
 
 
@@ -164,7 +164,7 @@
     /* Moved up for better hover target */
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: rgba(10, 14, 23, 0.95);
+    background: rgba(6, 19, 49, 0.95);
     /* Darker, solid-ish background */
     border: 1px solid var(--glass-border);
     border-top: 2px solid var(--color-accent-orange);
@@ -223,7 +223,7 @@
 .dropdown-item:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-5px);
-    border-color: rgba(255, 107, 0, 0.3);
+    border-color: rgba(255, 90, 9, 0.3);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -389,7 +389,7 @@
 }
 
 .btn-contact-orange:hover {
-    background: #ffb733;
+    background: #ff7a3b;
     /* Slightly lighter orange */
     transform: translateY(-1px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -443,7 +443,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(16, 25, 34, 0.98);
+    background: rgba(6, 19, 49, 0.98);
     /* Deep dark blue match */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);

@@ -8,6 +8,7 @@ import StatsBar from './components/StatsBar';
 import AboutPreview from './components/AboutPreview';
 import Testimonials from './components/Testimonials';
 import PartnersCarousel from './components/PartnersCarousel';
+import CustomerMap from './components/CustomerMap';
 import Footer from './components/Footer';
 import ProductsPage from './pages/ProductsPage';
 import ServicesPage from './pages/ServicesPage';
@@ -35,6 +36,7 @@ function App() {
               <HeroVideo />
               <StatsBar />
               <PartnersCarousel />
+              <CustomerMap />
 
               {/* Services & Products Preview Unified Section */}
               <section className="unified-preview-section">

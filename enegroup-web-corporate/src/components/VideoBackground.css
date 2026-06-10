@@ -20,13 +20,13 @@
 .sticky-video-overlay-gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(10, 22, 40, 0.9), rgba(10, 22, 40, 0.6), rgba(10, 22, 40, 0.3));
+    background: linear-gradient(to right, rgba(6, 19, 49, 0.9), rgba(6, 19, 49, 0.6), rgba(6, 19, 49, 0.3));
     z-index: 1;
 }
 
 .sticky-video-overlay-dark {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.2), #1A1A1A);
+    background: linear-gradient(to bottom, transparent, rgba(6, 19, 49, 0.2), #061331);
     z-index: 1;
 }

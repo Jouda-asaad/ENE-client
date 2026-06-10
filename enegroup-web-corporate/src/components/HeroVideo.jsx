@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './HeroVideo.css';
 
@@ -55,12 +56,14 @@ const HeroVideo = () => {
                     </p>
 
                     <div className="hero-ctas">
-                        <button className="btn-hero-primary">
-                            Download Investor Deck
-                        </button>
-                        <button className="btn-hero-outline">
-                            Book a Consultation
-                        </button>
+                        <Link to="/products" className="btn-hero-primary">
+                            <span className="material-symbols-outlined">inventory_2</span>
+                            PRODUCTS
+                        </Link>
+                        <Link to="/services" className="btn-hero-outline">
+                            <span className="material-symbols-outlined">engineering</span>
+                            SERVICES
+                        </Link>
                     </div>
                 </motion.div>
             </div>

@@ -95,13 +95,19 @@
     font-weight: 700;
     border: none;
     font-size: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 90, 9, 0.3);
     transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
 }
 
 .btn-hero-primary:hover {
-    background-color: #0000CC;
+    background-color: #e04f08;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 90, 9, 0.4);
 }
 
 .btn-hero-outline {
@@ -115,12 +121,17 @@
     font-size: 1rem;
     backdrop-filter: blur(4px);
     transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
 }
 
 .btn-hero-outline:hover {
-    background-color: rgba(255, 107, 53, 0.1);
-    border-color: var(--color-accent-orange);
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    background-color: rgba(255, 90, 9, 0.1);
+    border-color: #FF5A09;
+    box-shadow: 0 4px 15px rgba(255, 90, 9, 0.2);
 }
 
 .scroll-indicator {
