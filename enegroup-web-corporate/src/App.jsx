@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import HeaderCorp from './components/HeaderCorp';
 import AboutPage from './pages/AboutPage';
+import GalleryPage from './pages/GalleryPage';
 import HeroVideo from './components/HeroVideo';
 import VideoBackground from './components/VideoBackground';
 import StatsBar from './components/StatsBar';
@@ -44,6 +45,8 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/about/gallery" element={<GalleryPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/flotrim" element={<FlotrimPage />} />
           <Route path="/wheels" element={<WheelsPage />} />
           <Route path="/projects" element={<div style={{ paddingTop: '80px', color: 'white', textAlign: 'center' }}>Projects Page (Placeholder)</div>} />

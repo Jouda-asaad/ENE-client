@@ -35,7 +35,6 @@ const HeroVideo = () => {
         <section className="hero-video">
             {/* Video is now handled globally by VideoBackground.jsx */}
 
-
             <div className="hero-overlay-gradient"></div>
             <div className="hero-overlay-dark"></div>
 

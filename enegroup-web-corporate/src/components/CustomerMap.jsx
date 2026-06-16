@@ -2,76 +2,100 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './CustomerMap.css';
 
-import partnerSapura from '../assets/partners/sapura.png';
-import partnerShell from '../assets/partners/shell.png';
-import partnerYokogawa from '../assets/partners/yokogawa.png';
-import partnerKenexis from '../assets/partners/kenexis.png';
-import supplier1 from '../assets/suppliers/1.png';
-import supplier2 from '../assets/suppliers/2.png';
-import supplier3 from '../assets/suppliers/3.png';
-
-// Import map image
+// Isometric map (grey background removed)
 import mapImage from '../assets/misc/customer-map.png';
 
+const B = '/assets/clients'; // logos served from public/
+
+// Categories follow the labelling of the original capability map (fullmap.png),
+// positioned over the isometric terrain. Only cleanly-available brand logos are listed.
 const customerCategories = [
     {
         id: 'offshore',
-        name: 'Offshore Platforms',
-        position: { top: '30%', left: '15%' },
-        spreadAngles: { start: -90, end: 30 }, // Spread from Top to Bottom-Right
+        name: 'Offshore Platform',
+        position: { top: '46%', left: '14%' },
         customers: [
-            { name: 'Petronas', logo: '/assets/partners/Petronas_logo.svg' },
-            { name: 'Shell', logo: partnerShell },
-            { name: 'Exxon Mobil', logo: '/assets/partners/Exxon_Mobil_Logo.svg' }
-        ]
-    },
-    {
-        id: 'refinery',
-        name: 'Refineries',
-        position: { top: '60%', left: '20%' },
-        spreadAngles: { start: -150, end: -30 }, // Wider spread Top-Left to Top-Right
-        customers: [
-            { name: 'Petron', logo: '/assets/partners/Petron.png' },
-            { name: 'Cosasco', logo: '/assets/logos/cosasco.png' },
-            { name: 'Farris', logo: '/assets/logos/farris.png' }
-        ]
+            { name: 'Petronas', logo: `${B}/offshore-platform/petronas.png` },
+            { name: 'Shell', logo: `${B}/offshore-platform/shell.png` },
+            { name: 'CPOC', logo: `${B}/offshore-platform/cpoc.png` },
+            { name: 'EnQuest', logo: `${B}/offshore-platform/enquest.png` },
+            { name: 'Repsol', logo: `${B}/offshore-platform/repsol.png` },
+            { name: 'Hess', logo: `${B}/offshore-platform/hess.png` },
+        ],
     },
     {
         id: 'epcc',
-        name: 'EPCC & Fabricators',
-        position: { top: '40%', right: '15%' },
-        spreadAngles: { start: -210, end: -90 }, // Wider spread Left to Top
+        name: 'EPCC',
+        position: { top: '20%', left: '34%' },
         customers: [
-            { name: 'Sapura', logo: partnerSapura },
-            { name: 'Supplier A', logo: supplier1 },
-            { name: 'Supplier B', logo: supplier2 }
-        ]
+            { name: 'Deleum', logo: `${B}/epcc/deleum.png` },
+            { name: 'Dialog', logo: `${B}/epcc/dialog.png` },
+            { name: 'Dayang', logo: `${B}/epcc/dayang.png` },
+        ],
+    },
+    {
+        id: 'petchem',
+        name: 'PetChem',
+        position: { top: '30%', left: '60%' },
+        customers: [
+            { name: 'Eastman', logo: `${B}/petchem/eastman.png` },
+        ],
+    },
+    {
+        id: 'servicing',
+        name: 'Servicing Contractor',
+        position: { top: '22%', left: '82%' },
+        customers: [
+            { name: 'NOV', logo: `${B}/servicing-contractor/nov.png` },
+            { name: 'HHA Associates', logo: `${B}/servicing-contractor/hha-associates.png` },
+        ],
+    },
+    {
+        id: 'refinery',
+        name: 'Refinery',
+        position: { top: '52%', left: '70%' },
+        customers: [
+            { name: 'Petronas Penapisan Melaka', logo: `${B}/refinery/penapisan-melaka.png` },
+        ],
+    },
+    {
+        id: 'fabrication',
+        name: 'Fabrication Yard',
+        position: { top: '64%', left: '26%' },
+        customers: [
+            { name: 'Sabah Shipyard', logo: `${B}/fabrication-yard/sabah-shipyard.png` },
+            { name: 'MMHE', logo: `${B}/fabrication-yard/mmhe.png` },
+            { name: 'Dermaga', logo: `${B}/fabrication-yard/dermaga.png` },
+            { name: 'Sapura Energy', logo: `${B}/fabrication-yard/sapura-energy.png` },
+            { name: 'OceanMight', logo: `${B}/fabrication-yard/oceanmight.png` },
+        ],
+    },
+    {
+        id: 'engineering',
+        name: 'Engineering Consultant',
+        position: { top: '60%', left: '54%' },
+        customers: [
+            { name: 'MMC', logo: `${B}/engineering-consultant/mmc.png` },
+            { name: 'Technip Energies', logo: `${B}/engineering-consultant/technip-energies.png` },
+        ],
     },
     {
         id: 'system',
-        name: 'System Integrators',
-        position: { top: '70%', right: '25%' },
-        spreadAngles: { start: -210, end: -30 }, // 180-degree wide spread to fit 5 large logos
+        name: 'System Integrator',
+        position: { top: '60%', left: '88%' },
         customers: [
-            { name: 'Yokogawa', logo: partnerYokogawa },
-            { name: 'Siemens', logo: '/assets/partners/Siemens-logo.svg' },
-            { name: 'Tyco', logo: '/assets/partners/Tyco-Logo.svg' },
-            { name: 'Kenexis', logo: partnerKenexis },
-            { name: 'Supplier C', logo: supplier3 }
-        ]
-    }
+            { name: 'TriSystems', logo: `${B}/system-integrator/trisystems.png` },
+            { name: 'Tyco', logo: `${B}/system-integrator/tyco.png` },
+        ],
+    },
 ];
 
 const CustomerMap = () => {
     const [activeCategory, setActiveCategory] = useState(null);
 
-    const toggleCategory = (id) => {
-        if (activeCategory === id) {
-            setActiveCategory(null);
-        } else {
-            setActiveCategory(id);
-        }
-    };
+    // Popover opens to the left when the hotspot is on the right half of the map,
+    // so it never spills off-screen.
+    const sideFor = (leftPct) => (parseFloat(leftPct) > 55 ? 'left' : 'right');
 
     return (
         <section className="customer-map-section">
@@ -79,87 +103,57 @@ const CustomerMap = () => {
                 <div className="customer-map-header">
                     <h2>Our Customers</h2>
                     <div className="accent-bar"></div>
-                    <p>Partnering with industry leaders across the oil & gas value chain.</p>
+                    <p>Partnering with industry leaders across the oil &amp; gas value chain. Hover a category to see the brands.</p>
                 </div>
 
                 <div className="map-wrapper">
                     <div className="map-scroll-area">
-                        {/* The isometric map image */}
-                        <img 
-                            src={mapImage} 
-                            alt="Oil and Gas Infrastructure Map" 
-                            className="isometric-map-image" 
+                        <img
+                            src={mapImage}
+                            alt="Oil and Gas Infrastructure Map"
+                            className="isometric-map-image"
                         />
 
-                        {/* Interactive Hotspots & Tree Nodes */}
+                        {/* Interactive category hotspots */}
                         <div className="hotspots-container">
-                            {customerCategories.map((category) => (
-                                <div 
-                                    key={category.id}
-                                    className={`hotspot ${activeCategory === category.id ? 'active' : ''}`}
-                                    style={{ top: category.position.top, left: category.position.left, right: category.position.right }}
-                                >
-                                    <div className="hotspot-marker" onClick={() => toggleCategory(category.id)}></div>
-                                    <div className="hotspot-label" onClick={() => toggleCategory(category.id)}>{category.name}</div>
-                                    
-                                    {/* Tree branch logos */}
-                                    <AnimatePresence>
-                                        {activeCategory === category.id && category.customers.map((customer, idx) => {
-                                            const total = category.customers.length;
-                                            const radius = 220; // increased radius for larger logos
-                                            const startAngle = category.spreadAngles.start * (Math.PI / 180);
-                                            const endAngle = category.spreadAngles.end * (Math.PI / 180);
-                                            const angle = total === 1 
-                                                ? startAngle 
-                                                : startAngle + (idx * (endAngle - startAngle) / (total - 1));
-                                            
-                                            const targetX = Math.cos(angle) * radius;
-                                            const targetY = Math.sin(angle) * radius;
+                            {customerCategories.map((category) => {
+                                const side = sideFor(category.position.left);
+                                return (
+                                    <div
+                                        key={category.id}
+                                        className={`hotspot ${activeCategory === category.id ? 'active' : ''}`}
+                                        style={{ top: category.position.top, left: category.position.left }}
+                                        onMouseEnter={() => setActiveCategory(category.id)}
+                                        onMouseLeave={() => setActiveCategory(null)}
+                                    >
+                                        <div className="hotspot-marker"></div>
+                                        <div className="hotspot-label">{category.name}</div>
 
-                                            return (
-                                                <motion.div 
-                                                    key={`node-${category.id}-${idx}`}
-                                                    className="tree-node"
-                                                    initial={{ opacity: 0, x: 0, y: 0, scale: 0.5 }}
-                                                    animate={{ opacity: 1, x: targetX, y: targetY, scale: 1 }}
-                                                    exit={{ opacity: 0, x: 0, y: 0, scale: 0.5 }}
-                                                    transition={{ 
-                                                        type: "spring", 
-                                                        stiffness: 260, 
-                                                        damping: 20, 
-                                                        delay: idx * 0.05 
-                                                    }}
+                                        {/* Hover popover with brand thumbnails */}
+                                        <AnimatePresence>
+                                            {activeCategory === category.id && (
+                                                <motion.div
+                                                    className={`brand-popover popover-${side}`}
+                                                    initial={{ opacity: 0, scale: 0.92 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.92 }}
+                                                    transition={{ duration: 0.15 }}
                                                 >
-                                                    {/* Connecting line */}
-                                                    <svg className="tree-line" width={Math.abs(targetX) + 20} height={Math.abs(targetY) + 20} 
-                                                         style={{
-                                                             left: targetX < 0 ? targetX + 45 : 45,
-                                                             top: targetY < 0 ? targetY + 45 : 45,
-                                                         }}>
-                                                        <line 
-                                                            x1={targetX < 0 ? Math.abs(targetX) : 0} 
-                                                            y1={targetY < 0 ? Math.abs(targetY) : 0} 
-                                                            x2={targetX < 0 ? 0 : targetX} 
-                                                            y2={targetY < 0 ? 0 : targetY} 
-                                                            stroke="var(--color-primary)" 
-                                                            strokeWidth="3" 
-                                                            strokeDasharray="6 6"
-                                                        />
-                                                    </svg>
-                                                    <div className="tree-node-content">
-                                                        <img src={customer.logo} alt={`${customer.name} logo`} />
-                                                    </div>
+                                                    <div className="brand-popover-title">{category.name}</div>
+                                                    <ul className="brand-list">
+                                                        {category.customers.map((c) => (
+                                                            <li key={c.name} className="brand-list-item">{c.name}</li>
+                                                        ))}
+                                                    </ul>
                                                 </motion.div>
-                                            );
-                                        })}
-                                    </AnimatePresence>
-                                </div>
-                            ))}
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </section>
     );

@@ -7,6 +7,7 @@ const HeaderCorp = () => {
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
     const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
+    const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -93,10 +94,32 @@ const HeaderCorp = () => {
                                 HOME
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li
+                            className="nav-item dropdown-container"
+                            onMouseEnter={() => setIsAboutDropdownOpen(true)}
+                            onMouseLeave={() => setIsAboutDropdownOpen(false)}
+                        >
                             <Link to="/about" className={`nav-link ${isActive('/about')}`}>
                                 ABOUT US
+                                <span className="material-symbols-outlined icon-sm">expand_more</span>
                             </Link>
+
+                            <div className={`dropdown-menu ${isAboutDropdownOpen ? 'open' : ''}`}>
+                                <div className="dropdown-grid">
+                                    <Link to="/about" className="dropdown-item text-only">
+                                        <div className="dropdown-text">
+                                            <span className="product-cat">About Us</span>
+                                            <span className="product-brand">Our story & capabilities</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/about/gallery" className="dropdown-item text-only">
+                                        <div className="dropdown-text">
+                                            <span className="product-cat">Gallery</span>
+                                            <span className="product-brand">Photos of ENE</span>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
                         </li>
                         <li className="nav-item">
                             <Link to="/services" className={`nav-link ${isActive('/services')}`}>
@@ -172,6 +195,7 @@ const HeaderCorp = () => {
                     <ul className="mobile-nav-list">
                         <li><Link to="/" className={`mobile-nav-link ${isActive('/')}`} onClick={closeMobileMenu}>HOME</Link></li>
                         <li><Link to="/about" className={`mobile-nav-link ${isActive('/about')}`} onClick={closeMobileMenu}>ABOUT US</Link></li>
+                        <li><Link to="/about/gallery" className={`mobile-nav-link ${isActive('/about/gallery')}`} onClick={closeMobileMenu}>GALLERY</Link></li>
                         <li><Link to="/services" className={`mobile-nav-link ${isActive('/services')}`} onClick={closeMobileMenu}>SERVICES</Link></li>
 
 

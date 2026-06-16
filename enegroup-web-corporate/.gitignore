@@ -28,3 +28,7 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Working artifacts (not needed in repo)
+/clients/
+/public/assets/brands/_originals/
