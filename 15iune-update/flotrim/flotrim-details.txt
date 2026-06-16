@@ -1,0 +1,119 @@
+About Flotrim:
+Flotrim Sdn Bhd was established in 2007 as a result of the increasing demand in Oil and Gas Services in Malaysia. Backed by experienced individuals with more than 15 years serving the industry, Flotrim main focus will be in trading, aftermarket and maintenance services. The activities cover in purchase of stock, distribute the full line of manufacturer products and to extend technical support services and application services relating to the products, which are required by corporate clients.
+Flotrim's primary Aftermarket goal is to help our customers lower the total cost of ownership of their equipment. We have always offered a full range of services at our Service Center, and we will continue to provide experienced personnel and 24-7 on call services.
+
+office locations:
+
+1- 17 Jln Teknologi 3/3A,
+Surian Industrial Park,
+47810 Petaling Jaya,
+Selangor.
+
+2- Tok Bali Supply Base,
+Terengganu. Jalan Tok Bali, Tok Bali, 16700 Pasir Puteh, Kelantan
+
+3- Lot 28 (2689). Lot 2544 Kidurong Gateway, Tanjung Kidurong,
+97000 Bintulu,
+Sarawak.
+
+4- Aeropod, Kota Kinabalu,
+Sabah.
+
+
+# products
+
+## choke valves
+Master Flo Valve is a technological leader and world class manufacturer of chokes, specialty control valve and supporting actuation.
+They manufacturer high quality products supported by innovative engineering and outstanding quality assurance.
+
+### 1- production chokes
+
+Oil Production
+Gas Production
+Water Injection
+Gas Lift
+Gas Injection Blow Down
+Vent Valves
+Steam Service
+HP/HT
+
+### 2-subsea chokes:
+
+Manually Operated
+      - Non-retrievable bolted bonnet
+      - Diver insert retrievable
+Actuated
+      - Non-retrievable
+      - HRV insert retrievable
+Water Injection
+
+## 2- actuation
+
+Master Flo manufactures a range of actuators to complement the choke and control-valve product lines. For surface applications, linear actuators (pneumatic piston and hydraulic piston) and rotary actuators (hydraulic or pneumatic stepping) are available. 
+As well, various thirdparty actuators are also available to fill other needs including pneumatic diaphragm, open-yoke pneumatic piston, and rotary electric actuation.
+
+Stepping
+              - Hydraulic
+              - Pneumatic
+Hydraulic Piston
+              - Fail in last position
+              - Fail closed
+              - Fail open
+Pnuematic Piston
+              - Double Acting
+              - Low Voltage
+Electric
+              - 110/220
+
+
+# services
+
+##FIELD SERVICES
+
+Our field service technicians are on call 24 hours a day, 7 days a week to handle on-site service needs. These individuals are highly skilled in providing installation assistance, making field repairs and performing routine, scheduled maintenance on your equipment.
+They also provide technical support along with these services.
+
+
+Installation
+      Flotrim’s personnel are present
+      during equipment installation and 
+      provide training for your operations
+      personnel as specified.
+
+Field Repair
+      Whenever possible, our technicians
+      will perform troubleshooting
+      diagnostics and make repairs on-
+      site.
+
+Technical Support
+      Experts in quality assurance, quality
+      control, product engineering, field
+      installation and preventable maintenance
+      procedures can be provided on a project
+      or contract basis.
+
+## MAINTENANCE AND RETROFITTING
+
+We are offering the best maintenance/monitoring solution for your existing choke valve:-
+
+1- Site Survey – for the needs of choke valve maintenance, how do we know that the valves needs attention:-
+Flow Rate Through Choke Increases
+      - Same position and pressures gives
+        higher flow
+Choke Position Decreases
+      - DCS drives choke more closed to meet 
+        same process requirements
+Pressure Change with no Flow Change
+      - ΔP decreases with no decreases in flow
+
+2- Choke Valve Refurbishment/Retrofitting
+For existing valves (manual/actuated) – to inspect on body and internal parts. If found in good condition, replace internal parts, hydro test, new paint, new warranty.
+For existing manual choke valve – to upgrade to actuated choke without sacrificing the existing valve for the ease of monitoring the performance of choke valve.
+Why do we propose to change internal parts and the setup of the choke valve from manual to actuation?
+      - To have a spare valve
+      - Easy data acquisition from the wellhead
+      - Monitoring choke valve performance for
+        maintenance planning
+      - Easy operation
+

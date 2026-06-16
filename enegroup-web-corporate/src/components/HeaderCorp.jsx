@@ -78,8 +78,10 @@ const HeaderCorp = () => {
         setIsMobileMenuOpen(false);
     };
 
+    const isLightThemePage = location.pathname === '/flotrim';
+
     return (
-        <header className={`header-corp ${scrolled ? 'scrolled' : ''}`}>
+        <header className={`header-corp ${scrolled ? 'scrolled' : ''} ${isLightThemePage ? 'light-theme' : ''}`}>
             <div className="header-container">
                 {/* Logo */}
                 <Link to="/" className="logo-container" onClick={closeMobileMenu}>

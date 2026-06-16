@@ -520,3 +520,25 @@
         /* Slightly less skew on mobile */
     }
 }
+
+/* Light theme overrides for non-scrolled state on specific pages */
+.header-corp.light-theme:not(.scrolled) .nav-link {
+    color: #000000;
+}
+
+.header-corp.light-theme:not(.scrolled) .nav-link:hover,
+.header-corp.light-theme:not(.scrolled) .nav-link.active {
+    color: var(--color-accent-orange);
+}
+
+.header-corp.light-theme:not(.scrolled) .hamburger-line {
+    background: #000000;
+}
+
+.header-corp.light-theme:not(.scrolled) .mobile-chevron {
+    color: #000000;
+}
+
+.header-corp.light-theme:not(.scrolled) .theme-toggle-btn {
+    color: #000000;
+}
