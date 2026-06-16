@@ -34,7 +34,7 @@ const ContactPage = () => {
 
     const contactDetails = {
         address: "Level 21, Menara Binjai, No. 2, Jalan Binjai, 50450 Kuala Lumpur",
-        phone: "+603 2181 3145",
+        phone: "+6013 - 997 7755",
         email: "sales@enegroup.com.my"
     };
 

@@ -7,12 +7,14 @@ const AdminCMS = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
+    const [services, setServices] = useState([]);
+    const [pageContent, setPageContent] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingProduct, setEditingProduct] = useState(null);
     const [isCreating, setIsCreating] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
     const [activeTab, setActiveTab] = useState('industrial'); // 'industrial' | 'wheels'
-    const [activePanel, setActivePanel] = useState('products'); // 'products' | 'manage'
+    const [activePanel, setActivePanel] = useState('products'); // 'products' | 'manage' | 'services' | 'content'
     const navigate = useNavigate();
 
     // Category/Brand management states
@@ -21,6 +23,15 @@ const AdminCMS = () => {
     const [editCategoryName, setEditCategoryName] = useState('');
     const [newBrandName, setNewBrandName] = useState('');
     const [selectedManageCategory, setSelectedManageCategory] = useState(null);
+
+    // Services/Content management states
+    const [editingService, setEditingService] = useState(null);
+    const [editingContent, setEditingContent] = useState(null);
+    const [contentForm, setContentForm] = useState({ content: '' });
+    const [serviceForm, setServiceForm] = useState({
+        title: '', description: '', sort_order: 0, is_active: true,
+        image_url: '', partner_name: '', partner_logo_url: '', sub_services: '', gallery_urls: ''
+    });
 
     // Form states
     const [formData, setFormData] = useState({
@@ -49,7 +60,7 @@ const AdminCMS = () => {
 
     const fetchAll = async () => {
         setLoading(true);
-        await Promise.all([fetchProducts(), fetchCategories(), fetchBrands()]);
+        await Promise.all([fetchProducts(), fetchCategories(), fetchBrands(), fetchServices(), fetchPageContent()]);
         setLoading(false);
     };
 
@@ -78,6 +89,25 @@ const AdminCMS = () => {
             .order('name');
         if (error) console.error('Error fetching brands:', error);
         else setBrands(data);
+    };
+
+    const fetchServices = async () => {
+        const { data, error } = await supabase
+            .from('services')
+            .select('*')
+            .order('sort_order');
+        if (error) console.error('Error fetching services:', error);
+        else setServices(data);
+    };
+
+    const fetchPageContent = async () => {
+        const { data, error } = await supabase
+            .from('page_content')
+            .select('*')
+            .order('page_key')
+            .order('section_key');
+        if (error) console.error('Error fetching page content:', error);
+        else setPageContent(data);
     };
 
     const handleLogout = async () => {
@@ -269,6 +299,20 @@ const AdminCMS = () => {
                         >
                             <span className="material-symbols-outlined">category</span>
                             Categories & Brands
+                        </button>
+                        <button
+                            className={`cms-nav-btn ${activePanel === 'services' ? 'active' : ''}`}
+                            onClick={() => setActivePanel('services')}
+                        >
+                            <span className="material-symbols-outlined">design_services</span>
+                            Services
+                        </button>
+                        <button
+                            className={`cms-nav-btn ${activePanel === 'content' ? 'active' : ''}`}
+                            onClick={() => setActivePanel('content')}
+                        >
+                            <span className="material-symbols-outlined">article</span>
+                            Page Content
                         </button>
                     </nav>
                 </div>
@@ -636,6 +680,224 @@ const AdminCMS = () => {
                         <div className="modal-body" style={{ textAlign: 'center', padding: '2rem', background: '#f8f9fa', borderRadius: '0 0 12px 12px' }}>
                             <img src={brandLogoPreview} alt="Brand Logo Preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ===== SERVICES PANEL ===== */}
+            {activePanel === 'services' && (
+                <div className="manage-panel">
+                    <div className="panel-toolbar">
+                        <h2>Manage Services</h2>
+                    </div>
+
+                    {editingService && (
+                        <div className="modal-overlay">
+                            <div className="modal-content">
+                                <h2>Edit Service</h2>
+                                <form onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const subArr = serviceForm.sub_services ? serviceForm.sub_services.split('\n').filter(s => s.trim()) : [];
+                                    const galArr = serviceForm.gallery_urls ? serviceForm.gallery_urls.split('\n').filter(s => s.trim()) : [];
+                                    const { error } = await supabase.from('services').update({
+                                        title: serviceForm.title,
+                                        description: serviceForm.description,
+                                        sort_order: parseInt(serviceForm.sort_order),
+                                        is_active: serviceForm.is_active,
+                                        image_url: serviceForm.image_url,
+                                        partner_name: serviceForm.partner_name,
+                                        partner_logo_url: serviceForm.partner_logo_url,
+                                        sub_services: subArr,
+                                        gallery_urls: galArr
+                                    }).eq('id', editingService.id);
+                                    if (error) alert(error.message);
+                                    else {
+                                        setEditingService(null);
+                                        fetchServices();
+                                    }
+                                }}>
+                                    <div className="form-group">
+                                        <label>Title</label>
+                                        <input type="text" value={serviceForm.title} onChange={e => setServiceForm({...serviceForm, title: e.target.value})} required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Description</label>
+                                        <textarea rows="3" value={serviceForm.description} onChange={e => setServiceForm({...serviceForm, description: e.target.value})} />
+                                    </div>
+                                    <div className="form-group" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                        <div style={{ flex: 1 }}>
+                                            <label>Sort Order</label>
+                                            <input type="number" value={serviceForm.sort_order} onChange={e => setServiceForm({...serviceForm, sort_order: e.target.value})} />
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem', cursor: 'pointer' }}>
+                                                <input type="checkbox" checked={serviceForm.is_active} onChange={e => setServiceForm({...serviceForm, is_active: e.target.checked})} style={{ width: 'auto' }} />
+                                                Is Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Image URL</label>
+                                        <input type="text" value={serviceForm.image_url} onChange={e => setServiceForm({...serviceForm, image_url: e.target.value})} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Partner Name</label>
+                                        <input type="text" value={serviceForm.partner_name} onChange={e => setServiceForm({...serviceForm, partner_name: e.target.value})} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Partner Logo URL</label>
+                                        <input type="text" value={serviceForm.partner_logo_url} onChange={e => setServiceForm({...serviceForm, partner_logo_url: e.target.value})} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Sub Services (One per line)</label>
+                                        <textarea rows="4" value={serviceForm.sub_services} onChange={e => setServiceForm({...serviceForm, sub_services: e.target.value})} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Gallery Image URLs (One per line)</label>
+                                        <textarea rows="4" value={serviceForm.gallery_urls} onChange={e => setServiceForm({...serviceForm, gallery_urls: e.target.value})} />
+                                    </div>
+                                    <div className="modal-actions">
+                                        <button type="button" onClick={() => setEditingService(null)} className="btn-secondary">Cancel</button>
+                                        <button type="submit" className="btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="products-table-container">
+                        <table className="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {services.map(service => (
+                                    <tr key={service.id}>
+                                        <td>{service.sort_order}</td>
+                                        <td>{service.title}</td>
+                                        <td>{service.is_active ? 'Active' : 'Inactive'}</td>
+                                        <td>
+                                            <button className="btn-icon" title="Edit Service" onClick={() => {
+                                                setServiceForm({
+                                                    title: service.title || '',
+                                                    description: service.description || '',
+                                                    sort_order: service.sort_order || 0,
+                                                    is_active: service.is_active,
+                                                    image_url: service.image_url || '',
+                                                    partner_name: service.partner_name || '',
+                                                    partner_logo_url: service.partner_logo_url || '',
+                                                    sub_services: (service.sub_services || []).join('\n'),
+                                                    gallery_urls: (service.gallery_urls || []).join('\n')
+                                                });
+                                                setEditingService(service);
+                                            }}>
+                                                <span className="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
+
+            {/* ===== CONTENT PANEL ===== */}
+            {activePanel === 'content' && (
+                <div className="manage-panel">
+                    <div className="panel-toolbar">
+                        <h2>Manage Page Content</h2>
+                        <button className="btn-primary" onClick={async () => {
+                            const pageKey = prompt("Enter page key (e.g., home, about):");
+                            if (!pageKey) return;
+                            const sectionKey = prompt("Enter section key (e.g., hero_title):");
+                            if (!sectionKey) return;
+                            const { error } = await supabase.from('page_content').insert([{ page_key: pageKey, section_key: sectionKey, content: '' }]);
+                            if (error) alert(error.message);
+                            else fetchPageContent();
+                        }}>
+                            <span className="material-symbols-outlined">add</span> Add Content block
+                        </button>
+                    </div>
+
+                    {editingContent && (
+                        <div className="modal-overlay">
+                            <div className="modal-content">
+                                <h2>Edit Content Block</h2>
+                                <p className="form-hint" style={{ marginBottom: '1rem' }}>
+                                    Editing: <strong>{editingContent.page_key}</strong> &gt; <strong>{editingContent.section_key}</strong>
+                                </p>
+                                <form onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const { error } = await supabase.from('page_content')
+                                        .update({ content: contentForm.content })
+                                        .eq('id', editingContent.id);
+                                    if (error) alert(error.message);
+                                    else {
+                                        setEditingContent(null);
+                                        fetchPageContent();
+                                    }
+                                }}>
+                                    <div className="form-group">
+                                        <label>Content</label>
+                                        <textarea 
+                                            rows="8" 
+                                            value={contentForm.content} 
+                                            onChange={e => setContentForm({ content: e.target.value })} 
+                                        />
+                                    </div>
+                                    <div className="modal-actions">
+                                        <button type="button" onClick={() => setEditingContent(null)} className="btn-secondary">Cancel</button>
+                                        <button type="submit" className="btn-primary">Save Content</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="products-table-container">
+                        <table className="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Page Key</th>
+                                    <th>Section Key</th>
+                                    <th>Content Preview</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pageContent.map(content => (
+                                    <tr key={content.id}>
+                                        <td><span className="category-badge">{content.page_key}</span></td>
+                                        <td>{content.section_key}</td>
+                                        <td style={{ maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {content.content}
+                                        </td>
+                                        <td>
+                                            <button className="btn-icon" title="Edit Content" onClick={() => {
+                                                setContentForm({ content: content.content || '' });
+                                                setEditingContent(content);
+                                            }}>
+                                                <span className="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <button className="btn-icon btn-danger" onClick={async () => {
+                                                if(window.confirm('Delete this content block?')) {
+                                                    await supabase.from('page_content').delete().eq('id', content.id);
+                                                    fetchPageContent();
+                                                }
+                                            }} title="Delete">
+                                                <span className="material-symbols-outlined">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             )}

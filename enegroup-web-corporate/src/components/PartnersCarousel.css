@@ -1,8 +1,9 @@
 .partners-section {
     width: 100%;
-    background-color: var(--color-charcoal);
-    padding: 4rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: #ffffff;
+    padding: 5rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     overflow: hidden;
 }
 
@@ -10,14 +11,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 .partners-label {
-    color: #6b7280;
+    color: #9ca3af;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     font-weight: 700;
 }
 
@@ -32,7 +33,7 @@
     content: "";
     position: absolute;
     top: 0;
-    width: 100px;
+    width: 150px;
     height: 100%;
     z-index: 2;
     pointer-events: none;
@@ -40,19 +41,19 @@
 
 .carousel-track-container::before {
     left: 0;
-    background: linear-gradient(to right, var(--color-charcoal), transparent);
+    background: linear-gradient(to right, #ffffff, transparent);
 }
 
 .carousel-track-container::after {
     right: 0;
-    background: linear-gradient(to left, var(--color-charcoal), transparent);
+    background: linear-gradient(to left, #ffffff, transparent);
 }
 
 .carousel-track {
     display: flex;
     width: max-content;
     animation: scroll 60s linear infinite;
-    gap: 10rem;
+    gap: 8rem;
     padding: 0 5rem;
 }
 
@@ -60,22 +61,22 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    opacity: 0.85;
-    filter: grayscale(50%) brightness(1.2);
+    opacity: 1;
+    filter: none;
     transition: all var(--transition-medium);
     cursor: pointer;
 }
 
 .partner-logo-item:hover {
     opacity: 1;
-    filter: grayscale(0%) brightness(1);
-    transform: scale(1.05);
+    filter: none;
+    transform: scale(1.07);
 }
 
 .partner-logo-img {
-    height: 70px;
+    height: 110px;
     width: auto;
-    max-width: 200px;
+    max-width: 240px;
     object-fit: contain;
 }
 
@@ -83,7 +84,7 @@
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.5rem;
-    color: white;
+    color: #1a1a1a;
 }
 
 @keyframes scroll {

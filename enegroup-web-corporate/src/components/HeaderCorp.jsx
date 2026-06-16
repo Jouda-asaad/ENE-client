@@ -34,18 +34,20 @@ const HeaderCorp = () => {
     };
 
     const productCategories = [
-        { name: 'Pressure Safety Valve', brand: 'Farris', image: '/assets/suppliers/farris.png' },
-        { name: 'Control Valve', brand: 'Dyna-Flo', image: '/assets/suppliers/dyna-flo.png' },
-        { name: 'DBB / Instrument Valve', brand: 'Alco, Sabre', image: '/assets/suppliers/alco-sabre.png' },
-        { name: 'Rupture Disk', brand: 'Continental Disc', image: '/assets/suppliers/continental-disc.png' },
-        { name: 'Fire & Gas Detector', brand: 'Honeywell', image: '/assets/suppliers/honeywell.png' },
-        { name: 'Pressure Regulator', brand: 'Pressure Tech', image: '/assets/suppliers/pressure-tech.png' },
-        { name: 'Corrosion Monitoring', brand: 'Cosasco, Groth', image: '/assets/suppliers/cosasco.png' },
-        { name: 'Gauges', brand: 'Badotherm', image: '/assets/suppliers/badotherm.png' },
-        { name: 'MPFM', brand: 'Pietro Fiorentini', image: '/assets/suppliers/pietro-fiorentini.png' },
-        { name: 'WHCP / CI Skid', brand: 'Wilmax', image: '/assets/suppliers/wilmax.png' },
-        { name: 'Flare System', brand: 'Flare Internusa', image: '/assets/suppliers/flare-internusa.png' },
-        { name: 'Valves', brand: 'Fitok', image: '/assets/suppliers/fitok.png' },
+        { name: 'Pressure Relief Valve (PRV/PSV)', brand: 'Farris' },
+        { name: 'Control Valve', brand: 'Dyna-Flo' },
+        { name: 'DBB / Instrument Valve', brand: 'Alco, Sabre' },
+        { name: 'Fire & Gas Detector', brand: 'Honeywell' },
+        { name: 'Subsea / Cryogenic Valve', brand: 'PetrolValves Group' },
+        { name: 'Corrosion Monitoring', brand: 'Cosasco' },
+        { name: 'PVRV', brand: 'Groth, Continental Disc' },
+        { name: 'Flare System', brand: 'Flare Internusa' },
+        { name: 'WHCP / CI Skid', brand: 'Wilmax' },
+        { name: 'MPFM / HIPPS', brand: 'Pietro Fiorentini' },
+        { name: 'Choke Valve', brand: 'Masterflo' },
+        { name: 'Pressure Regulator', brand: 'Pressure Tech' },
+        { name: 'Tube Fitting', brand: 'Fitok' },
+        { name: 'Gauges', brand: 'Badotherm' },
     ];
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -133,6 +135,11 @@ const HeaderCorp = () => {
                         </li>
                         
                         <li className="nav-item">
+                            <Link to="/flotrim" className={`nav-link ${isActive('/flotrim')}`}>
+                                FLOTRIM
+                            </Link>
+                        </li>
+                        <li className="nav-item">
                             <Link to="/wheels" className={`nav-link ${isActive('/wheels')}`}>
                                 ENE WHEELS
                             </Link>
@@ -190,6 +197,7 @@ const HeaderCorp = () => {
                                 </div>
                             </div>
                         </li>
+                        <li><Link to="/flotrim" className={`mobile-nav-link ${isActive('/flotrim')}`} onClick={closeMobileMenu}>FLOTRIM</Link></li>
                         <li><Link to="/wheels" className={`mobile-nav-link ${isActive('/wheels')}`} onClick={closeMobileMenu}>ENE WHEELS</Link></li>
                     </ul>
                     <div className="mobile-actions">

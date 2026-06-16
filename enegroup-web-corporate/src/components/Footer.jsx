@@ -18,6 +18,9 @@ const Footer = () => {
                         <p className="footer-desc">
                             Your trusted partner in offshore engineering and industrial power solutions. Delivering excellence since 2001.
                         </p>
+                        <div className="footer-certs" style={{ margin: '1.5rem 0' }}>
+                            <img src="/assets/logos/certs_logo.png" alt="Certifications" className="footer-certs-logo" style={{ height: '45px', objectFit: 'contain' }} />
+                        </div>
                         <div className="footer-socials">
                             <a href="#" className="social-link"><span className="material-symbols-outlined">public</span></a>
                             <a href="#" className="social-link"><span className="material-symbols-outlined">alternate_email</span></a>
@@ -60,11 +63,11 @@ const Footer = () => {
                             </div>
                             <div className="contact-item">
                                 <span className="material-symbols-outlined icon">call</span>
-                                <p>+60 3 2166 8888</p>
+                                <p>+6013 - 997 7755</p>
                             </div>
                             <div className="contact-item">
                                 <span className="material-symbols-outlined icon">mail</span>
-                                <p>info@enegroup.com</p>
+                                <p>sales@enegroup.com.my</p>
                             </div>
                         </div>
                     </div>

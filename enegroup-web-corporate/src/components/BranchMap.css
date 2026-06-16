@@ -1,0 +1,292 @@
+/* ============================================================
+   BranchMap.css — Interactive branch location map
+   ============================================================ */
+
+.branch-map-section {
+    padding: 6rem 2rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.branch-map-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* ---- Map Container ---- */
+.branch-map-container {
+    position: relative;
+    background: linear-gradient(135deg, rgba(6, 19, 49, 0.95), rgba(6, 19, 49, 0.8));
+    border: 1px solid rgba(255, 90, 9, 0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.map-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.map-image-inner {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* ---- SVG Map Pins ---- */
+.svg-pin-dot {
+    transition: r 0.3s ease, filter 0.3s ease;
+}
+
+.svg-pin-group:hover .svg-pin-dot,
+.svg-pin-group.active .svg-pin-dot {
+    filter: drop-shadow(0 0 10px rgba(255, 90, 9, 0.8));
+    r: 8;
+}
+
+.svg-pin-pulse {
+    animation: svg-pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes svg-pulse-ring {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+        stroke-width: 2px;
+    }
+    100% {
+        transform: scale(3.5);
+        opacity: 0;
+        stroke-width: 0px;
+    }
+}
+
+/* ---- Info Card ---- */
+.branch-info-card {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 420px;
+    background: linear-gradient(145deg, rgba(6, 19, 49, 0.97), rgba(15, 30, 65, 0.97));
+    border: 1px solid rgba(255, 90, 9, 0.25);
+    border-radius: 14px;
+    overflow: hidden;
+    z-index: 20;
+    animation: card-slide-up 0.3s ease;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes card-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s;
+}
+
+.card-close:hover {
+    background: rgba(255, 90, 9, 0.6);
+}
+
+.card-close .material-symbols-outlined {
+    font-size: 16px;
+}
+
+.card-image {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 1rem 1.2rem 1.2rem;
+}
+
+.hq-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF5A09, #FF8A50);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.card-body h4 {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+}
+
+.card-location {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-location .material-symbols-outlined {
+    font-size: 16px;
+    color: #FF5A09;
+}
+
+.card-sublabel {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+}
+
+/* ---- Branch List (mobile sidebar / bottom list) ---- */
+.branch-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+}
+
+.branch-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: rgba(6, 19, 49, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.branch-list-item:hover,
+.branch-list-item.active {
+    background: rgba(255, 90, 9, 0.08);
+    border-color: rgba(255, 90, 9, 0.3);
+}
+
+.list-pin-indicator {
+    flex-shrink: 0;
+}
+
+.list-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 90, 9, 0.5);
+    border: 2px solid rgba(255, 90, 9, 0.8);
+}
+
+.list-dot.hq {
+    width: 12px;
+    height: 12px;
+    background: #FF5A09;
+    border-color: #fff;
+}
+
+.list-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+
+.list-entity {
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list-location {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7rem;
+}
+
+.list-hq-badge {
+    background: linear-gradient(135deg, #FF5A09, #FF8A50);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .branch-map-section {
+        padding: 4rem 1rem 3rem;
+    }
+
+    .branch-map-container {
+        min-height: 280px;
+    }
+
+    .svg-pin-group text {
+        display: none;
+    }
+
+    .svg-pin-dot {
+        r: 3;
+    }
+
+    .branch-info-card {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+
+    .card-image {
+        height: 120px;
+    }
+
+    .branch-list {
+        grid-template-columns: 1fr;
+    }
+}
