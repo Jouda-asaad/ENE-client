@@ -16,7 +16,7 @@ const Footer = () => {
                             <span className="footer-logo-text">ENE Group</span>
                         </Link>
                         <p className="footer-desc">
-                            Your trusted partner in offshore engineering and industrial power solutions. Delivering excellence since 2001.
+                            Your trusted partner in offshore engineering and industrial power solutions. Delivering excellence since 2014.
                         </p>
                         <div className="footer-certs" style={{ margin: '1.5rem 0' }}>
                             <img src="/assets/logos/certs_logo.png" alt="Certifications" className="footer-certs-logo" style={{ height: '45px', objectFit: 'contain' }} />

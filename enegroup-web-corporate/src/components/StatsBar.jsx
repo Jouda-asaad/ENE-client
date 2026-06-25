@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import './StatsBar.css';
 
 const stats = [
-    { value: "12+", label: "Years Experience" },
-    { value: "500+", label: "Projects Delivered" },
-    { value: "RM50M+", label: "Equipment Value" },
+    { value: "12", label: "Years of Experience" },
+    { value: "1K", label: "Projects Delivered" },
+    { value: "RM10M", label: "Equipment Value" },
     { value: "100+", label: "Industry Experts" }
 ];
 

@@ -91,6 +91,28 @@
     padding: 0 2rem;
 }
 
+@media (max-width: 768px) {
+    .about-hero {
+        height: 45vh;
+        min-height: 280px;
+        padding: 0 1.25rem;
+    }
+
+    .about-hero h1 {
+        font-size: 2rem;
+    }
+
+    .about-hero .subtitle {
+        font-size: 1rem;
+    }
+
+    .slanted-accent {
+        width: 60px;
+        height: 4px;
+        margin-bottom: 1rem;
+    }
+}
+
 .about-hero::before {
     content: '';
     position: absolute;
@@ -143,6 +165,34 @@
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+}
+
+@media (max-width: 768px) {
+    .our-story-section {
+        padding: 3rem 1.25rem;
+    }
+
+    .story-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .story-content h2 {
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .story-content p {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+
+    .image-accent-border {
+        top: 10px;
+        left: 10px;
+        right: -10px;
+        bottom: -10px;
+    }
 }
 
 .story-image-wrapper {
@@ -236,6 +286,27 @@
     color: white;
 }
 
+@media (max-width: 768px) {
+    .vision-section {
+        padding: 2.5rem 1.25rem;
+        margin: 2rem 0;
+    }
+
+    .vision-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .quote-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .vision-text {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+}
+
 /* Capabilities Section */
 .capabilities-section {
     padding: 6rem 2rem;
@@ -260,6 +331,47 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .capabilities-section {
+        padding: 3rem 1.25rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    .capabilities-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .capability-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .capability-card h4 {
+        font-size: 0.95rem;
+    }
+
+    .capability-card p {
+        font-size: 0.8rem;
+    }
+
+    .icon-wrapper {
+        width: 48px;
+        height: 48px;
+    }
+
+    .icon-wrapper span {
+        font-size: 1.5rem;
+    }
 }
 
 .capability-card {

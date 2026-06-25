@@ -17,17 +17,27 @@ const AboutPreview = () => {
                         <div className="accent-bar"></div>
                         <h2 className="section-title">Industrial Power.<br />Global Reach.</h2>
                         <p className="about-desc">
-                            Since 2001, ENE Group has been at the forefront of the oil and gas services industry.
+                            Since 2014, ENE Group has been at the forefront of the oil and gas services industry.
                             We combine technical expertise with operational excellence to deliver critical infrastructure across 12 countries.
                         </p>
                         <div className="about-stats-grid">
+                            <div className="a-stat cert-stat">
+                                <img
+                                    src="/assets/logos/certs_logo.png"
+                                    alt="Certification Logos"
+                                    className="cert-logo-inline"
+                                />
+                                <div className="cert-list-labels">
+                                    <span className="as-label">ISO 9001 : 2015</span>
+                                    <span className="as-label">ISO 45001 : 2015</span>
+                                    <span className="as-label">ISO 14001 : 2018</span>
+                                    <span className="as-label">PETRONAS License</span>
+                                    <span className="as-label">ASME UV · NB UV · NB VR</span>
+                                </div>
+                            </div>
                             <div className="a-stat">
                                 <span className="as-val">2.5M</span>
                                 <span className="as-label">Safe Man-Hours</span>
-                            </div>
-                            <div className="a-stat">
-                                <span className="as-val">ISO</span>
-                                <span className="as-label">9001:2015 Certified</span>
                             </div>
                         </div>
                         <button className="btn-about">

@@ -36,7 +36,7 @@ const customerCategories = [
     {
         id: 'petchem',
         name: 'PetChem',
-        position: { top: '30%', left: '60%' },
+        position: { top: '12%', left: '82%' },
         customers: [
             { name: 'Eastman', logo: `${B}/petchem/eastman.png` },
         ],
@@ -44,7 +44,7 @@ const customerCategories = [
     {
         id: 'servicing',
         name: 'Servicing Contractor',
-        position: { top: '22%', left: '82%' },
+        position: { top: '42%', left: '82%' },
         customers: [
             { name: 'NOV', logo: `${B}/servicing-contractor/nov.png` },
             { name: 'HHA Associates', logo: `${B}/servicing-contractor/hha-associates.png` },
@@ -53,7 +53,7 @@ const customerCategories = [
     {
         id: 'refinery',
         name: 'Refinery',
-        position: { top: '52%', left: '70%' },
+        position: { top: '68%', left: '80%' },
         customers: [
             { name: 'Petronas Penapisan Melaka', logo: `${B}/refinery/penapisan-melaka.png` },
         ],
@@ -61,7 +61,9 @@ const customerCategories = [
     {
         id: 'fabrication',
         name: 'Fabrication Yard',
-        position: { top: '64%', left: '26%' },
+        position: {
+            top: '70%', left: '62%'
+        },
         customers: [
             { name: 'Sabah Shipyard', logo: `${B}/fabrication-yard/sabah-shipyard.png` },
             { name: 'MMHE', logo: `${B}/fabrication-yard/mmhe.png` },
@@ -73,7 +75,7 @@ const customerCategories = [
     {
         id: 'engineering',
         name: 'Engineering Consultant',
-        position: { top: '60%', left: '54%' },
+        position: { top: '19%', left: '60%' },
         customers: [
             { name: 'MMC', logo: `${B}/engineering-consultant/mmc.png` },
             { name: 'Technip Energies', logo: `${B}/engineering-consultant/technip-energies.png` },
@@ -82,7 +84,7 @@ const customerCategories = [
     {
         id: 'system',
         name: 'System Integrator',
-        position: { top: '60%', left: '88%' },
+        position: { top: '80%', left: '92%' },
         customers: [
             { name: 'TriSystems', logo: `${B}/system-integrator/trisystems.png` },
             { name: 'Tyco', logo: `${B}/system-integrator/tyco.png` },

@@ -72,6 +72,31 @@
     color: var(--color-text-gray);
 }
 
+.cert-stat {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.cert-logo-inline {
+    height: 88px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(1.1);
+    flex-shrink: 0;
+}
+
+.cert-list-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.cert-list-labels .as-label {
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
 .btn-about {
     align-self: flex-start;
     padding: 0.875rem 2rem;
@@ -155,6 +180,66 @@
 .fc-desc {
     color: var(--color-text-gray);
     font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .about-preview {
+        padding: 3rem 1.25rem;
+    }
+
+    .about-container {
+        gap: 2rem;
+    }
+
+    .about-desc {
+        font-size: 1rem;
+        max-width: none;
+    }
+
+    .about-stats-grid {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .cert-stat {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .cert-logo-inline {
+        height: 64px;
+    }
+
+    .cert-list-labels .as-label {
+        font-size: 0.75rem;
+    }
+
+    .about-image-container {
+        height: 280px;
+    }
+
+    .floating-card {
+        bottom: -1rem;
+        left: 0;
+        width: 220px;
+        padding: 1rem;
+    }
+
+    .fc-icon {
+        font-size: 1.5rem;
+    }
+
+    .fc-title {
+        font-size: 0.875rem;
+    }
+
+    .fc-desc {
+        font-size: 0.7rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
 }
 
 @media (min-width: 1024px) {
