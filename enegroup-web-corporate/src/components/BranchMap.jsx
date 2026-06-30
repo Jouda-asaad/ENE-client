@@ -175,6 +175,13 @@ const BranchMap = () => {
                                                 className={`svg-pin-group ${activeBranch?.id === branch.id ? 'active' : ''}`}
                                                 onMouseEnter={(e) => handlePinEnter(e, branch)} 
                                                 onMouseLeave={handlePinLeave}
+                                                onClick={(e) => {
+                                                    if (activeBranch?.id === branch.id) {
+                                                        handlePinLeave();
+                                                    } else {
+                                                        handlePinEnter(e, branch);
+                                                    }
+                                                }}
                                                 transform={`translate(${x}, ${y})`}
                                                 style={{ cursor: "pointer" }}
                                             >
