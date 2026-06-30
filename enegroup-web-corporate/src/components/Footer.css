@@ -34,14 +34,14 @@
 }
 
 .footer-logo-icon {
-    width: 20px;
+    width: 80px;
     height: auto;
 }
 
 .footer-logo-text {
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: white;
 }
 
@@ -55,6 +55,20 @@
     display: flex;
     gap: 1rem;
     margin-top: 0.5rem;
+}
+
+.footer-quick-links-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-quick-links-header .footer-heading {
+    margin: 0;
+}
+
+.footer-quick-links-header .footer-socials {
+    margin: 0;
 }
 
 .social-link {

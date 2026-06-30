@@ -106,8 +106,8 @@ const HeaderCorp = () => {
                                 <span className="material-symbols-outlined icon-sm">expand_more</span>
                             </Link>
 
-                            <div className={`dropdown-menu ${isAboutDropdownOpen ? 'open' : ''}`}>
-                                <div className="dropdown-grid">
+                            <div className={`dropdown-menu about-menu ${isAboutDropdownOpen ? 'open' : ''}`}>
+                                <div className="dropdown-grid about-grid">
                                     <Link to="/about" className="dropdown-item text-only">
                                         <div className="dropdown-text">
                                             <span className="product-cat">About Us</span>

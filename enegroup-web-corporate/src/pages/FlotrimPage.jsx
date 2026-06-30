@@ -99,12 +99,21 @@ const FlotrimPage = () => {
                     </motion.div>
 
                     <motion.div variants={fadeUp} className="flotrim-offices-grid">
-                        <div className="office-card">
+                        <div className="office-card hq-card">
                             <div className="office-img-wrapper">
-                                <img src="/assets/flotrim/office-pj.png" alt="Petaling Jaya Office" className="zoomable-image" onClick={() => setZoomedImg('/assets/flotrim/office-pj.png')} />
+                                <img src="/assets/team/WhatsApp-Image-2025-04-25-at-09.39.21.jpeg" alt="Ampwalk HQ" className="zoomable-image" onClick={() => setZoomedImg('/assets/team/WhatsApp-Image-2025-04-25-at-09.39.21.jpeg')} />
                             </div>
                             <div className="office-content">
-                                <h4>HQ — Petaling Jaya</h4>
+                                <h4>HQ — Kuala Lumpur</h4>
+                                <p>Suite 7-03A, North Block, The Ampwalk, 218, Jalan Ampang, Kampung Datuk Keramat, 50450 Kuala Lumpur, Federal Territory of Kuala Lumpur</p>
+                            </div>
+                        </div>
+                        <div className="office-card">
+                            <div className="office-img-wrapper">
+                                <img src="/assets/flotrim/office-pj.png" alt="Petaling Jaya Workshop" className="zoomable-image" onClick={() => setZoomedImg('/assets/flotrim/office-pj.png')} />
+                            </div>
+                            <div className="office-content">
+                                <h4>Workshop — Petaling Jaya</h4>
                                 <p>17 Jln Teknologi 3/3A, Surian Industrial Park, 47810 Petaling Jaya, Selangor</p>
                             </div>
                         </div>
@@ -270,7 +279,8 @@ const FlotrimPage = () => {
 
             {/* ---- Services Section ---- */}
             <section className="flotrim-services-section">
-                <motion.div
+                <div className="flotrim-services-container">
+                    <motion.div
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
@@ -344,6 +354,7 @@ const FlotrimPage = () => {
                         </motion.div>
                     </div>
                 </motion.div>
+                </div>
             </section>
 
             {/* ---- CTA Section ---- */}

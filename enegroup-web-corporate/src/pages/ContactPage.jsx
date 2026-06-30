@@ -33,7 +33,7 @@ const ContactPage = () => {
     });
 
     const contactDetails = {
-        address: "Level 21, Menara Binjai, No. 2, Jalan Binjai, 50450 Kuala Lumpur",
+        address: "Suite 7-03A, North Block, The Ampwalk, 218, Jalan Ampang, Kampung Datuk Keramat, 50450 Kuala Lumpur, Federal Territory of Kuala Lumpur",
         phone: "+6013 - 997 7755",
         email: "sales@enegroup.com.my"
     };

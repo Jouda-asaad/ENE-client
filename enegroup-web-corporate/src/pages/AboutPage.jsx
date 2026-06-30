@@ -114,9 +114,7 @@ const AboutPage = () => {
                                     <span className="as-label">Safe Man-Hours</span>
                                 </div>
                             </div>
-                            <button className="btn-about">
-                                More About Us
-                            </button>
+
                         </motion.div>
                     </div>
 

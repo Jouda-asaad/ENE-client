@@ -6,34 +6,6 @@ import './ServicesPage.css';
 const services = [
     {
         id: "01",
-        title: "Engineering Consultation Services",
-        description: "Oil & gas specialists with extensive experience in Engineering Design Preparation and Support. We provide capabilities for brownfield and greenfield projects, from conceptual study through FEED and detailed design stage.",
-        image: "/assets/services/engineering-consultation.jpg",
-        subServices: [
-            "Mechanical & Piping",
-            "Civil & Structural",
-            "Electrical",
-            "Instrument",
-            "Process & Safety"
-        ]
-    },
-    {
-        id: "02",
-        title: "3D Fire & Gas Mapping",
-        description: "Algorithm-based fire and gas coverage calculation utilizing Effigy software by Kenexis USA. Geographic and scenario-based coverage analysis for facility safety optimization.",
-        image: "/assets/services/3d-mapping.png",
-        partner: {
-            name: "Kenexis",
-            logo: "/assets/services/kenexis-logo.png"
-        },
-        gallery: [
-            "/assets/services/kenexis-sim-1.png",
-            "/assets/services/kenexis-sim-2.png",
-            "/assets/services/kenexis-sim-3.png"
-        ]
-    },
-    {
-        id: "03",
         title: "Valve Servicing & Testing",
         description: "State-of-the-art valve maintenance, repair, and testing facilities. Comprehensive testing and calibration services for all industrial valve types.",
         image: "/assets/services/valve-testing-1.png",
@@ -43,7 +15,7 @@ const services = [
         ]
     },
     {
-        id: "04",
+        id: "02",
         title: "On-Site Servicing & Testing",
         description: "Rapid-response mobile field units equipped for on-site calibration, testing, and maintenance. Specialized manpower to minimize operational downtime.",
         image: "/assets/services/onsite-1.jpg",

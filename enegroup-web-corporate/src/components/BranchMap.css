@@ -3,6 +3,11 @@
    ============================================================ */
 
 .branch-map-section {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(6, 19, 49, 0.95), rgba(6, 19, 49, 0.8));
+}
+
+.branch-map-inner {
     padding: 6rem 2rem 4rem;
     max-width: 1400px;
     margin: 0 auto;

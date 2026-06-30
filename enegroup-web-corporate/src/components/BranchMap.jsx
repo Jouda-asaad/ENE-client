@@ -139,112 +139,114 @@ const BranchMap = () => {
 
     return (
         <section className="branch-map-section">
-            <h2 className="section-title animate-on-scroll fade-up">Our Locations</h2>
-            <p className="section-subtitle animate-on-scroll fade-up delay-100">
-                Strategically positioned across Malaysia & Singapore
-            </p>
+            <div className="branch-map-inner">
+                <h2 className="section-title animate-on-scroll fade-up">Our Locations</h2>
+                <p className="section-subtitle animate-on-scroll fade-up delay-100">
+                    Strategically positioned across Malaysia & Singapore
+                </p>
 
-            <div className="branch-map-wrapper animate-on-scroll fade-up">
-                <div className="branch-map-container">
-                    <div className="map-image-wrapper">
-                        <div className="map-image-inner" style={{ height: "100%", width: "100%", position: "relative" }}>
-                            <svg viewBox={`0 0 ${mapWidth} ${mapHeight}`} style={{ width: "100%", height: "auto" }}>
-                                {/* Map Outlines */}
-                                <g className="map-geographies">
-                                    {geographies.map((geo, i) => (
-                                        <path
-                                            key={`geo-${i}`}
-                                            d={pathGenerator(geo)}
-                                            fill="rgba(255, 90, 9, 0.08)"
-                                            stroke="rgba(255, 90, 9, 0.3)"
-                                            strokeWidth={0.5}
-                                            style={{ transition: "fill 0.3s ease" }}
-                                            onMouseEnter={(e) => e.target.style.fill = "rgba(255, 90, 9, 0.15)"}
-                                            onMouseLeave={(e) => e.target.style.fill = "rgba(255, 90, 9, 0.08)"}
-                                        />
-                                    ))}
-                                </g>
-                                
-                                {/* Branch Pins */}
-                                {branches.map((branch) => {
-                                    const [x, y] = projection(branch.coordinates);
-                                    return (
-                                        <g 
-                                            key={branch.id}
-                                            className={`svg-pin-group ${activeBranch?.id === branch.id ? 'active' : ''}`}
-                                            onMouseEnter={(e) => handlePinEnter(e, branch)} 
-                                            onMouseLeave={handlePinLeave}
-                                            transform={`translate(${x}, ${y})`}
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            {/* Invisible Hit Area for easier hovering */}
-                                            <circle cx={0} cy={0} r={25} fill="transparent" />
-                                            
-                                            {/* Pinging pulse */}
-                                            <circle cx={0} cy={0} r={10} fill="rgba(255, 90, 9, 0.4)" stroke="rgba(255, 90, 9, 0.6)" className="svg-pin-pulse" />
-                                            
-                                            {/* Main dot */}
-                                            <circle cx={0} cy={0} r={branch.isHQ ? 7 : 5} fill="#FF5A09" stroke="#fff" strokeWidth={1.5} className="svg-pin-dot" />
-                                            
-                                            {/* Text Label */}
-                                            <text
-                                                textAnchor="middle"
-                                                x={branch.labelOffset?.[0] || 0}
-                                                y={branch.labelOffset?.[1] || -18}
-                                                style={{
-                                                    fontFamily: "Inter, sans-serif",
-                                                    fill: "#FFF",
-                                                    fontSize: "14px",
-                                                    fontWeight: 700,
-                                                    opacity: activeBranch?.id === branch.id ? 1 : 0.85,
-                                                    filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.9)) drop-shadow(0px 0px 3px rgba(0,0,0,1))",
-                                                    pointerEvents: "none" // Prevent tooltip flicker when hovering text
-                                                }}
+                <div className="branch-map-wrapper animate-on-scroll fade-up">
+                    <div className="branch-map-container">
+                        <div className="map-image-wrapper">
+                            <div className="map-image-inner" style={{ height: "100%", width: "100%", position: "relative" }}>
+                                <svg viewBox={`0 0 ${mapWidth} ${mapHeight}`} style={{ width: "100%", height: "auto" }}>
+                                    {/* Map Outlines */}
+                                    <g className="map-geographies">
+                                        {geographies.map((geo, i) => (
+                                            <path
+                                                key={`geo-${i}`}
+                                                d={pathGenerator(geo)}
+                                                fill="rgba(255, 90, 9, 0.25)"
+                                                stroke="rgba(255, 90, 9, 0.6)"
+                                                strokeWidth={1}
+                                                style={{ transition: "fill 0.3s ease" }}
+                                                onMouseEnter={(e) => e.target.style.fill = "rgba(255, 90, 9, 0.4)"}
+                                                onMouseLeave={(e) => e.target.style.fill = "rgba(255, 90, 9, 0.25)"}
+                                            />
+                                        ))}
+                                    </g>
+                                    
+                                    {/* Branch Pins */}
+                                    {branches.map((branch) => {
+                                        const [x, y] = projection(branch.coordinates);
+                                        return (
+                                            <g 
+                                                key={branch.id}
+                                                className={`svg-pin-group ${activeBranch?.id === branch.id ? 'active' : ''}`}
+                                                onMouseEnter={(e) => handlePinEnter(e, branch)} 
+                                                onMouseLeave={handlePinLeave}
+                                                transform={`translate(${x}, ${y})`}
+                                                style={{ cursor: "pointer" }}
                                             >
-                                                {branch.label}
-                                            </text>
-                                        </g>
-                                    );
-                                })}
-                            </svg>
+                                                {/* Invisible Hit Area for easier hovering */}
+                                                <circle cx={0} cy={0} r={25} fill="transparent" />
+                                                
+                                                {/* Pinging pulse */}
+                                                <circle cx={0} cy={0} r={10} fill="rgba(255, 90, 9, 0.4)" stroke="rgba(255, 90, 9, 0.6)" className="svg-pin-pulse" />
+                                                
+                                                {/* Main dot */}
+                                                <circle cx={0} cy={0} r={branch.isHQ ? 7 : 5} fill="#FF5A09" stroke="#fff" strokeWidth={1.5} className="svg-pin-dot" />
+                                                
+                                                {/* Text Label */}
+                                                <text
+                                                    textAnchor="middle"
+                                                    x={branch.labelOffset?.[0] || 0}
+                                                    y={branch.labelOffset?.[1] || -18}
+                                                    style={{
+                                                        fontFamily: "Inter, sans-serif",
+                                                        fill: "#FFF",
+                                                        fontSize: "14px",
+                                                        fontWeight: 700,
+                                                        opacity: activeBranch?.id === branch.id ? 1 : 0.85,
+                                                        filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.9)) drop-shadow(0px 0px 3px rgba(0,0,0,1))",
+                                                        pointerEvents: "none" // Prevent tooltip flicker when hovering text
+                                                    }}
+                                                >
+                                                    {branch.label}
+                                                </text>
+                                            </g>
+                                        );
+                                    })}
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Floating Card for Active Branch */}
-            {activeBranch && (
-                <div 
-                    className="branch-info-card"
-                    style={{
-                        position: 'fixed',
-                        left: `${activeBranch.posX}px`,
-                        top: `${activeBranch.posY}px`,
-                        bottom: 'auto',
-                        right: 'auto',
-                        zIndex: 9999,
-                        pointerEvents: 'none',
-                        margin: 0
-                    }}
-                >
-                    {activeBranch.image && (
-                        <div className="card-image">
-                            <img src={activeBranch.image} alt={activeBranch.label} />
-                        </div>
-                    )}
-                    <div className="card-body">
-                        <div className="card-header-inner">
-                            {activeBranch.isHQ && <span className="hq-badge">Headquarters</span>}
-                            <h4>{activeBranch.entity}</h4>
-                            <p className="card-location">
-                                <span className="material-symbols-outlined">location_on</span>
-                                {activeBranch.label}
-                            </p>
-                            {activeBranch.sublabel && <p className="card-sublabel">{activeBranch.sublabel}</p>}
+                {/* Floating Card for Active Branch */}
+                {activeBranch && (
+                    <div 
+                        className="branch-info-card"
+                        style={{
+                            position: 'fixed',
+                            left: `${activeBranch.posX}px`,
+                            top: `${activeBranch.posY}px`,
+                            bottom: 'auto',
+                            right: 'auto',
+                            zIndex: 9999,
+                            pointerEvents: 'none',
+                            margin: 0
+                        }}
+                    >
+                        {activeBranch.image && (
+                            <div className="card-image">
+                                <img src={activeBranch.image} alt={activeBranch.label} />
+                            </div>
+                        )}
+                        <div className="card-body">
+                            <div className="card-header-inner">
+                                {activeBranch.isHQ && <span className="hq-badge">Headquarters</span>}
+                                <h4>{activeBranch.entity}</h4>
+                                <p className="card-location">
+                                    <span className="material-symbols-outlined">location_on</span>
+                                    {activeBranch.label}
+                                </p>
+                                {activeBranch.sublabel && <p className="card-sublabel">{activeBranch.sublabel}</p>}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </section>
     );
 };
