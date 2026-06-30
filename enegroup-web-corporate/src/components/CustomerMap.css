@@ -352,6 +352,29 @@
     .map-wrapper {
         padding: 1rem;
         border-radius: var(--radius-md);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-primary) var(--color-surface);
+    }
+
+    .map-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .map-wrapper::-webkit-scrollbar-track {
+        background: var(--color-surface);
+        border-radius: 4px;
+    }
+
+    .map-wrapper::-webkit-scrollbar-thumb {
+        background: var(--color-primary);
+        border-radius: 4px;
+    }
+
+    .map-scroll-area {
+        min-width: 800px;
+        padding: 2rem 0;
     }
 
     .hotspot-label {

@@ -203,9 +203,15 @@ const HeaderCorp = () => {
 
                         {/* Mobile Products Accordion */}
                         <li className="mobile-dropdown-container">
-                            <div className="mobile-dropdown-header" onClick={toggleMobileProducts}>
-                                <span className={`mobile-nav-link ${isProductsActive()}`}>PRODUCTS</span>
-                                <span className={`material-symbols-outlined mobile-chevron ${isMobileProductsOpen ? 'rotate' : ''}`}>expand_more</span>
+                            <div className="mobile-dropdown-header">
+                                <Link to="/products" className={`mobile-nav-link ${isProductsActive()}`} onClick={closeMobileMenu}>PRODUCTS</Link>
+                                <span 
+                                    className={`material-symbols-outlined mobile-chevron ${isMobileProductsOpen ? 'rotate' : ''}`}
+                                    onClick={toggleMobileProducts}
+                                    style={{ cursor: 'pointer', padding: '10px' }}
+                                >
+                                    expand_more
+                                </span>
                             </div>
                             <div className={`mobile-dropdown-content ${isMobileProductsOpen ? 'open' : ''}`}>
                                 <div className="mobile-products-grid">

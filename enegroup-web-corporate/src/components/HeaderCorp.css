@@ -269,7 +269,8 @@
 .mobile-dropdown-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    position: relative;
     cursor: pointer;
 }
 
@@ -277,10 +278,14 @@
     color: var(--color-text-white);
     font-size: 2rem;
     transition: transform 0.3s ease;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .mobile-chevron.rotate {
-    transform: rotate(180deg);
+    transform: translateY(-50%) rotate(180deg);
     color: var(--color-accent-orange);
 }
 

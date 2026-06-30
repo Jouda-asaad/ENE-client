@@ -153,6 +153,7 @@ const CustomerMap = () => {
                                         }}
                                         onMouseEnter={() => setActiveCategory(category.id)}
                                         onMouseLeave={() => setActiveCategory(null)}
+                                        onClick={() => setActiveCategory(activeCategory === category.id ? null : category.id)}
                                     >
                                         {/* Radial tree for logos */}
                                         <div className="radial-lines-layer">
