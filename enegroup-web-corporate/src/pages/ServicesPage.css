@@ -198,12 +198,20 @@
     color: var(--color-accent-gold);
 }
 
+/* Service Footer Assets */
+.service-footer-assets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
 /* Partner badge */
 .partner-badge {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
     padding: 0.75rem 1rem;
     background: rgba(255, 255, 255, 0.04);
     border-radius: var(--radius-md);
@@ -226,7 +234,7 @@
 
 /* Gallery preview */
 .gallery-preview {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
 }
 
 .gallery-thumbnails {

@@ -1,20 +1,91 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import './AdminCMS.css';
+
+const SortableGalleryItem = ({ img, editingGalleryImage, editGalleryTitle, setEditGalleryTitle, handleEditGalleryImage, setEditingGalleryImage, startEditGalleryImage, handleDeleteGalleryImage, setPreviewImage }) => {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: img.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <li ref={setNodeRef} style={style} className="manage-list-item">
+            <span {...attributes} {...listeners} className="material-symbols-outlined drag-handle" style={{ cursor: 'grab', marginRight: '0.5rem', color: '#888' }}>
+                drag_indicator
+            </span>
+            <img src={img.src} alt={img.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px', cursor: 'pointer' }} onClick={() => setPreviewImage(img.src)} />
+            {editingGalleryImage?.id === img.id ? (
+                <form onSubmit={handleEditGalleryImage} className="inline-edit-form" style={{ marginLeft: '1rem', flex: 1, display: 'flex', gap: '0.25rem' }}>
+                    <input
+                        type="text"
+                        value={editGalleryTitle}
+                        onChange={e => setEditGalleryTitle(e.target.value)}
+                        autoFocus
+                        required
+                        style={{ flex: 1, padding: '0.25rem' }}
+                    />
+                    <button type="submit" className="btn-icon-sm" title="Save">
+                        <span className="material-symbols-outlined">check</span>
+                    </button>
+                    <button type="button" className="btn-icon-sm" onClick={() => setEditingGalleryImage(null)} title="Cancel">
+                        <span className="material-symbols-outlined">close</span>
+                    </button>
+                </form>
+            ) : (
+                <>
+                    <span className="item-name" style={{ marginLeft: '1rem', flex: 1 }}>{img.title}</span>
+                    <div style={{ display: 'flex', gap: '0.25rem', marginLeft: 'auto' }}>
+                        <button className="btn-icon-sm" onClick={() => startEditGalleryImage(img)} title="Edit">
+                            <span className="material-symbols-outlined">edit</span>
+                        </button>
+                        <button className="btn-icon-sm btn-danger-sm" onClick={() => handleDeleteGalleryImage(img.id)} title="Delete">
+                            <span className="material-symbols-outlined">delete</span>
+                        </button>
+                    </div>
+                </>
+            )}
+        </li>
+    );
+};
 
 const AdminCMS = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [services, setServices] = useState([]);
-    const [pageContent, setPageContent] = useState([]);
+    const [galleryImages, setGalleryImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingProduct, setEditingProduct] = useState(null);
     const [isCreating, setIsCreating] = useState(false);
+    const [isCreatingService, setIsCreatingService] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
     const [activeTab, setActiveTab] = useState('industrial'); // 'industrial' | 'wheels'
-    const [activePanel, setActivePanel] = useState('products'); // 'products' | 'manage' | 'services' | 'content'
+    const [activePanel, setActivePanel] = useState('products'); // 'products' | 'manage' | 'services' | 'content' | 'gallery'
     const navigate = useNavigate();
 
     // Category/Brand management states
@@ -24,14 +95,22 @@ const AdminCMS = () => {
     const [newBrandName, setNewBrandName] = useState('');
     const [selectedManageCategory, setSelectedManageCategory] = useState(null);
 
+    // Gallery management states
+    const [newGallerySrc, setNewGallerySrc] = useState('');
+    const [newGalleryTitle, setNewGalleryTitle] = useState('');
+    const [newGalleryFile, setNewGalleryFile] = useState(null);
+    const [editingGalleryImage, setEditingGalleryImage] = useState(null);
+    const [editGalleryTitle, setEditGalleryTitle] = useState('');
+
     // Services/Content management states
     const [editingService, setEditingService] = useState(null);
-    const [editingContent, setEditingContent] = useState(null);
-    const [contentForm, setContentForm] = useState({ content: '' });
     const [serviceForm, setServiceForm] = useState({
         title: '', description: '', sort_order: 0, is_active: true,
-        image_url: '', partner_name: '', partner_logo_url: '', sub_services: '', gallery_urls: ''
+        image_url: '', partner_name: '', partner_logo_url: '', sub_services: '', gallery_urls: '',
+        image_file: null, partner_logo_file: null, gallery_files: []
     });
+    const [servicePreviewUrl, setServicePreviewUrl] = useState(null);
+    const [partnerLogoPreviewUrl, setPartnerLogoPreviewUrl] = useState(null);
 
     // Form states
     const [formData, setFormData] = useState({
@@ -60,7 +139,7 @@ const AdminCMS = () => {
 
     const fetchAll = async () => {
         setLoading(true);
-        await Promise.all([fetchProducts(), fetchCategories(), fetchBrands(), fetchServices(), fetchPageContent()]);
+        await Promise.all([fetchProducts(), fetchCategories(), fetchBrands(), fetchServices(), fetchGalleryImages()]);
         setLoading(false);
     };
 
@@ -100,19 +179,115 @@ const AdminCMS = () => {
         else setServices(data);
     };
 
-    const fetchPageContent = async () => {
-        const { data, error } = await supabase
-            .from('page_content')
-            .select('*')
-            .order('page_key')
-            .order('section_key');
-        if (error) console.error('Error fetching page content:', error);
-        else setPageContent(data);
-    };
-
     const handleLogout = async () => {
         await supabase.auth.signOut();
         navigate('/admin');
+    };
+
+    const fetchGalleryImages = async () => {
+        const { data, error } = await supabase
+            .from('gallery_images')
+            .select('*')
+            .order('sort_order', { ascending: true })
+            .order('created_at', { ascending: true });
+        if (error) console.error('Error fetching gallery images:', error);
+        else setGalleryImages(data);
+    };
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    );
+
+    const handleDragEndGallery = async (event) => {
+        const { active, over } = event;
+        
+        if (over && active.id !== over.id) {
+            setGalleryImages((items) => {
+                const oldIndex = items.findIndex((item) => item.id === active.id);
+                const newIndex = items.findIndex((item) => item.id === over.id);
+                const newItems = arrayMove(items, oldIndex, newIndex);
+                
+                // Update sort_order in database for all items
+                updateGalleryOrder(newItems);
+                
+                return newItems;
+            });
+        }
+    };
+
+    const updateGalleryOrder = async (items) => {
+        const updates = items.map((item, index) => {
+            return supabase.from('gallery_images').update({ sort_order: index }).eq('id', item.id);
+        });
+        await Promise.all(updates);
+    };
+
+    // --- Gallery Management ---
+    const handleAddGalleryImage = async (e) => {
+        e.preventDefault();
+        if ((!newGallerySrc.trim() && !newGalleryFile) || !newGalleryTitle.trim()) return;
+
+        let imageUrl = newGallerySrc.trim();
+
+        if (newGalleryFile) {
+            const file = newGalleryFile;
+            const fileExt = file.name.split('.').pop();
+            const fileName = `gallery-${Date.now()}.${fileExt}`;
+            const filePath = `public/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('product-images')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                alert('Image upload failed: ' + uploadError.message);
+                return;
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('product-images')
+                .getPublicUrl(filePath);
+
+            imageUrl = publicUrl;
+        }
+
+        const maxSortOrder = galleryImages.length > 0 ? Math.max(...galleryImages.map(i => i.sort_order || 0)) : 0;
+        const { error } = await supabase.from('gallery_images').insert([{ src: imageUrl, title: newGalleryTitle.trim(), sort_order: maxSortOrder + 1 }]);
+        if (error) alert('Error adding gallery image: ' + error.message);
+        else {
+            setNewGallerySrc('');
+            setNewGalleryTitle('');
+            setNewGalleryFile(null);
+            fetchGalleryImages();
+        }
+    };
+
+    const handleDeleteGalleryImage = async (id) => {
+        if (!window.confirm('Delete this gallery image?')) return;
+        const { error } = await supabase.from('gallery_images').delete().eq('id', id);
+        if (error) alert('Error deleting gallery image: ' + error.message);
+        else fetchGalleryImages();
+    };
+
+    const handleEditGalleryImage = async (e) => {
+        e.preventDefault();
+        if (!editGalleryTitle.trim()) return;
+        const { error } = await supabase
+            .from('gallery_images')
+            .update({ title: editGalleryTitle.trim() })
+            .eq('id', editingGalleryImage.id);
+        if (error) alert('Error updating gallery image: ' + error.message);
+        else {
+            setEditingGalleryImage(null);
+            setEditGalleryTitle('');
+            fetchGalleryImages();
+        }
+    };
+
+    const startEditGalleryImage = (img) => {
+        setEditingGalleryImage(img);
+        setEditGalleryTitle(img.title);
     };
 
     // --- Category Management ---
@@ -148,6 +323,18 @@ const AdminCMS = () => {
         setEditCategoryName(cat.name);
     };
 
+    const handleDeleteCategory = async (catId) => {
+        if (!window.confirm('Delete this category? Note: Make sure no brands or products are depending on it.')) return;
+        const { error } = await supabase.from('categories').delete().eq('id', catId);
+        if (error) alert('Error deleting category: ' + error.message);
+        else {
+            if (selectedManageCategory && selectedManageCategory.id === catId) {
+                setSelectedManageCategory(null);
+            }
+            fetchCategories();
+        }
+    };
+
     // --- Brand Management ---
     const handleAddBrand = async (e) => {
         e.preventDefault();
@@ -177,8 +364,9 @@ const AdminCMS = () => {
 
     // --- Product CRUD ---
     const filteredProducts = products.filter(p => {
-        if (activeTab === 'industrial') return p.category !== 'Car' && p.category !== 'Vehicle';
-        return p.category === 'Car' || p.category === 'Vehicle';
+        const isWheelCategory = ['Car', 'Cars', 'Vehicle', 'Vehicles'].includes(p.category);
+        if (activeTab === 'industrial') return !isWheelCategory;
+        return isWheelCategory;
     });
 
     // Brands filtered for the selected form category
@@ -188,7 +376,8 @@ const AdminCMS = () => {
         : [];
 
     const openCreate = () => {
-        const defaultCategory = activeTab === 'wheels' ? 'Car' : '';
+        const wheelCategoryMatch = categories.find(c => ['Car', 'Cars', 'Vehicle', 'Vehicles'].includes(c.name));
+        const defaultCategory = activeTab === 'wheels' ? (wheelCategoryMatch ? wheelCategoryMatch.name : 'Cars') : '';
         setFormData({ id: '', brand: '', category: defaultCategory, name: '', description: '', original_link: '', image_file: null });
         setFilePreviewUrl(null);
         setEditingProduct(null);
@@ -215,6 +404,74 @@ const AdminCMS = () => {
         const { error } = await supabase.from('products').delete().eq('id', id);
         if (error) alert('Error deleting: ' + error.message);
         else fetchProducts();
+    };
+
+    const handleDeleteService = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this service?')) return;
+        const { error } = await supabase.from('services').delete().eq('id', id);
+        if (error) alert('Error deleting: ' + error.message);
+        else fetchServices();
+    };
+
+    const handleServiceSubmit = async (e) => {
+        e.preventDefault();
+        let imageUrl = serviceForm.image_url;
+        let partnerLogoUrl = serviceForm.partner_logo_url;
+        
+        let galleryUrls = serviceForm.gallery_urls ? (typeof serviceForm.gallery_urls === 'string' ? serviceForm.gallery_urls.split('\n').filter(s => s.trim()) : serviceForm.gallery_urls) : [];
+
+        const uploadFile = async (file, prefix) => {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `service-${prefix}-${Date.now()}.${fileExt}`;
+            const filePath = `public/${fileName}`;
+            const { error: uploadError } = await supabase.storage.from('product-images').upload(filePath, file);
+            if (uploadError) throw uploadError;
+            const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(filePath);
+            return publicUrl;
+        };
+
+        try {
+            if (serviceForm.image_file) {
+                imageUrl = await uploadFile(serviceForm.image_file, 'main');
+            }
+            if (serviceForm.partner_logo_file) {
+                partnerLogoUrl = await uploadFile(serviceForm.partner_logo_file, 'partner');
+            }
+            if (serviceForm.gallery_files && serviceForm.gallery_files.length > 0) {
+                for (let i = 0; i < serviceForm.gallery_files.length; i++) {
+                    const url = await uploadFile(serviceForm.gallery_files[i], `gallery-${i}`);
+                    galleryUrls.push(url);
+                }
+            }
+
+            const subArr = serviceForm.sub_services ? (typeof serviceForm.sub_services === 'string' ? serviceForm.sub_services.split('\n').filter(s => s.trim()) : serviceForm.sub_services) : [];
+
+            const serviceData = {
+                title: serviceForm.title,
+                description: serviceForm.description,
+                sort_order: parseInt(serviceForm.sort_order),
+                is_active: serviceForm.is_active,
+                image_url: imageUrl,
+                partner_name: serviceForm.partner_name,
+                partner_logo_url: partnerLogoUrl,
+                sub_services: subArr,
+                gallery_urls: galleryUrls
+            };
+
+            if (editingService) {
+                const { error } = await supabase.from('services').update(serviceData).eq('id', editingService.id);
+                if (error) throw error;
+            } else {
+                const { error } = await supabase.from('services').insert([serviceData]);
+                if (error) throw error;
+            }
+
+            setIsCreatingService(false);
+            setEditingService(null);
+            fetchServices();
+        } catch (error) {
+            alert('Error saving service: ' + error.message);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -308,11 +565,11 @@ const AdminCMS = () => {
                             Services
                         </button>
                         <button
-                            className={`cms-nav-btn ${activePanel === 'content' ? 'active' : ''}`}
-                            onClick={() => setActivePanel('content')}
+                            className={`cms-nav-btn ${activePanel === 'gallery' ? 'active' : ''}`}
+                            onClick={() => setActivePanel('gallery')}
                         >
-                            <span className="material-symbols-outlined">article</span>
-                            Page Content
+                            <span className="material-symbols-outlined">photo_library</span>
+                            Gallery
                         </button>
                     </nav>
                 </div>
@@ -567,9 +824,14 @@ const AdminCMS = () => {
                                             <>
                                                 <span className="item-name">{cat.name}</span>
                                                 <span className="item-count">{brands.filter(b => b.category_id === cat.id).length} brands</span>
-                                                <button className="btn-icon-sm" onClick={(e) => { e.stopPropagation(); startEditCategory(cat); }} title="Edit">
-                                                    <span className="material-symbols-outlined">edit</span>
-                                                </button>
+                                                <div style={{ display: 'flex', gap: '0.25rem' }}>
+                                                    <button className="btn-icon-sm" onClick={(e) => { e.stopPropagation(); startEditCategory(cat); }} title="Edit">
+                                                        <span className="material-symbols-outlined">edit</span>
+                                                    </button>
+                                                    <button className="btn-icon-sm btn-danger-sm" onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat.id); }} title="Delete">
+                                                        <span className="material-symbols-outlined">delete</span>
+                                                    </button>
+                                                </div>
                                             </>
                                         )}
                                     </li>
@@ -689,33 +951,27 @@ const AdminCMS = () => {
                 <div className="manage-panel">
                     <div className="panel-toolbar">
                         <h2>Manage Services</h2>
+                        <button className="btn-primary" onClick={() => {
+                            setServiceForm({
+                                title: '', description: '', sort_order: services.length + 1, is_active: true,
+                                image_url: '', partner_name: '', partner_logo_url: '', sub_services: '', gallery_urls: '',
+                                image_file: null, partner_logo_file: null, gallery_files: []
+                            });
+                            setServicePreviewUrl(null);
+                            setPartnerLogoPreviewUrl(null);
+                            setEditingService(null);
+                            setIsCreatingService(true);
+                        }}>
+                            <span className="material-symbols-outlined" style={{ fontSize: '1.1rem' }}>add</span>
+                            Add Service
+                        </button>
                     </div>
 
-                    {editingService && (
+                    {(editingService || isCreatingService) && (
                         <div className="modal-overlay">
-                            <div className="modal-content">
-                                <h2>Edit Service</h2>
-                                <form onSubmit={async (e) => {
-                                    e.preventDefault();
-                                    const subArr = serviceForm.sub_services ? serviceForm.sub_services.split('\n').filter(s => s.trim()) : [];
-                                    const galArr = serviceForm.gallery_urls ? serviceForm.gallery_urls.split('\n').filter(s => s.trim()) : [];
-                                    const { error } = await supabase.from('services').update({
-                                        title: serviceForm.title,
-                                        description: serviceForm.description,
-                                        sort_order: parseInt(serviceForm.sort_order),
-                                        is_active: serviceForm.is_active,
-                                        image_url: serviceForm.image_url,
-                                        partner_name: serviceForm.partner_name,
-                                        partner_logo_url: serviceForm.partner_logo_url,
-                                        sub_services: subArr,
-                                        gallery_urls: galArr
-                                    }).eq('id', editingService.id);
-                                    if (error) alert(error.message);
-                                    else {
-                                        setEditingService(null);
-                                        fetchServices();
-                                    }
-                                }}>
+                            <div className="modal-content" style={{ maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' }}>
+                                <h2>{editingService ? 'Edit Service' : 'Add Service'}</h2>
+                                <form onSubmit={handleServiceSubmit}>
                                     <div className="form-group">
                                         <label>Title</label>
                                         <input type="text" value={serviceForm.title} onChange={e => setServiceForm({...serviceForm, title: e.target.value})} required />
@@ -737,27 +993,64 @@ const AdminCMS = () => {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <label>Image URL</label>
-                                        <input type="text" value={serviceForm.image_url} onChange={e => setServiceForm({...serviceForm, image_url: e.target.value})} />
+                                        <label>Main Image</label>
+                                        {(servicePreviewUrl || serviceForm.image_url) && (
+                                            <div className="edit-image-preview" onClick={() => setPreviewImage(servicePreviewUrl || serviceForm.image_url)}>
+                                                <img src={servicePreviewUrl || serviceForm.image_url} alt="Main Image Preview" />
+                                                <span>Click to preview</span>
+                                            </div>
+                                        )}
+                                        <input type="file" accept="image/*" onChange={e => {
+                                            const file = e.target.files[0];
+                                            setServiceForm({...serviceForm, image_file: file});
+                                            setServicePreviewUrl(file ? URL.createObjectURL(file) : null);
+                                        }} />
+                                        <div className="form-hint" style={{ marginTop: '0.5rem' }}>Or provide an image URL directly:</div>
+                                        <input type="text" value={serviceForm.image_url} onChange={e => setServiceForm({...serviceForm, image_url: e.target.value})} placeholder="https://..." />
                                     </div>
                                     <div className="form-group">
                                         <label>Partner Name</label>
                                         <input type="text" value={serviceForm.partner_name} onChange={e => setServiceForm({...serviceForm, partner_name: e.target.value})} />
                                     </div>
                                     <div className="form-group">
-                                        <label>Partner Logo URL</label>
-                                        <input type="text" value={serviceForm.partner_logo_url} onChange={e => setServiceForm({...serviceForm, partner_logo_url: e.target.value})} />
+                                        <label>Partner Logo</label>
+                                        {(partnerLogoPreviewUrl || serviceForm.partner_logo_url) && (
+                                            <div className="edit-image-preview" onClick={() => setPreviewImage(partnerLogoPreviewUrl || serviceForm.partner_logo_url)}>
+                                                <img src={partnerLogoPreviewUrl || serviceForm.partner_logo_url} alt="Partner Logo Preview" style={{ objectFit: 'contain' }} />
+                                                <span>Click to preview</span>
+                                            </div>
+                                        )}
+                                        <input type="file" accept="image/*" onChange={e => {
+                                            const file = e.target.files[0];
+                                            setServiceForm({...serviceForm, partner_logo_file: file});
+                                            setPartnerLogoPreviewUrl(file ? URL.createObjectURL(file) : null);
+                                        }} />
+                                        <div className="form-hint" style={{ marginTop: '0.5rem' }}>Or provide a logo URL directly:</div>
+                                        <input type="text" value={serviceForm.partner_logo_url} onChange={e => setServiceForm({...serviceForm, partner_logo_url: e.target.value})} placeholder="https://..." />
                                     </div>
                                     <div className="form-group">
                                         <label>Sub Services (One per line)</label>
-                                        <textarea rows="4" value={serviceForm.sub_services} onChange={e => setServiceForm({...serviceForm, sub_services: e.target.value})} />
+                                        <textarea rows="4" value={serviceForm.sub_services} onChange={e => setServiceForm({...serviceForm, sub_services: e.target.value})} placeholder="e.g. Pre-commissioning&#10;Overhaul&#10;Testing" />
                                     </div>
                                     <div className="form-group">
-                                        <label>Gallery Image URLs (One per line)</label>
-                                        <textarea rows="4" value={serviceForm.gallery_urls} onChange={e => setServiceForm({...serviceForm, gallery_urls: e.target.value})} />
+                                        <label>Gallery Images</label>
+                                        {serviceForm.gallery_files && serviceForm.gallery_files.length > 0 && (
+                                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+                                                {Array.from(serviceForm.gallery_files).map((f, i) => (
+                                                    <div key={i} style={{ width: '50px', height: '50px', border: '1px solid #ddd', borderRadius: '4px', overflow: 'hidden' }}>
+                                                        <img src={URL.createObjectURL(f)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Gallery Preview" />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                        <input type="file" accept="image/*" multiple onChange={e => {
+                                            setServiceForm({...serviceForm, gallery_files: e.target.files});
+                                        }} />
+                                        <div className="form-hint" style={{ marginTop: '0.5rem' }}>Or provide image URLs directly (One per line):</div>
+                                        <textarea rows="4" value={serviceForm.gallery_urls} onChange={e => setServiceForm({...serviceForm, gallery_urls: e.target.value})} placeholder="https://...&#10;https://..." />
                                     </div>
                                     <div className="modal-actions">
-                                        <button type="button" onClick={() => setEditingService(null)} className="btn-secondary">Cancel</button>
+                                        <button type="button" onClick={() => { setIsCreatingService(false); setEditingService(null); }} className="btn-secondary">Cancel</button>
                                         <button type="submit" className="btn-primary">Save Changes</button>
                                     </div>
                                 </form>
@@ -782,22 +1075,33 @@ const AdminCMS = () => {
                                         <td>{service.title}</td>
                                         <td>{service.is_active ? 'Active' : 'Inactive'}</td>
                                         <td>
-                                            <button className="btn-icon" title="Edit Service" onClick={() => {
-                                                setServiceForm({
-                                                    title: service.title || '',
-                                                    description: service.description || '',
-                                                    sort_order: service.sort_order || 0,
-                                                    is_active: service.is_active,
-                                                    image_url: service.image_url || '',
-                                                    partner_name: service.partner_name || '',
-                                                    partner_logo_url: service.partner_logo_url || '',
-                                                    sub_services: (service.sub_services || []).join('\n'),
-                                                    gallery_urls: (service.gallery_urls || []).join('\n')
-                                                });
-                                                setEditingService(service);
-                                            }}>
-                                                <span className="material-symbols-outlined">edit</span>
-                                            </button>
+                                            <div className="action-buttons">
+                                                <button className="btn-icon" title="Edit Service" onClick={() => {
+                                                    setServiceForm({
+                                                        title: service.title || '',
+                                                        description: service.description || '',
+                                                        sort_order: service.sort_order || 0,
+                                                        is_active: service.is_active,
+                                                        image_url: service.image_url || '',
+                                                        partner_name: service.partner_name || '',
+                                                        partner_logo_url: service.partner_logo_url || '',
+                                                        sub_services: (service.sub_services || []).join('\n'),
+                                                        gallery_urls: (service.gallery_urls || []).join('\n'),
+                                                        image_file: null,
+                                                        partner_logo_file: null,
+                                                        gallery_files: []
+                                                    });
+                                                    setServicePreviewUrl(null);
+                                                    setPartnerLogoPreviewUrl(null);
+                                                    setEditingService(service);
+                                                    setIsCreatingService(false);
+                                                }}>
+                                                    <span className="material-symbols-outlined">edit</span>
+                                                </button>
+                                                <button onClick={() => handleDeleteService(service.id)} className="btn-icon btn-danger" title="Delete">
+                                                    <span className="material-symbols-outlined">delete</span>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -807,100 +1111,81 @@ const AdminCMS = () => {
                 </div>
             )}
 
-            {/* ===== CONTENT PANEL ===== */}
-            {activePanel === 'content' && (
+            {/* ===== GALLERY PANEL ===== */}
+            {activePanel === 'gallery' && (
                 <div className="manage-panel">
-                    <div className="panel-toolbar">
-                        <h2>Manage Page Content</h2>
-                        <button className="btn-primary" onClick={async () => {
-                            const pageKey = prompt("Enter page key (e.g., home, about):");
-                            if (!pageKey) return;
-                            const sectionKey = prompt("Enter section key (e.g., hero_title):");
-                            if (!sectionKey) return;
-                            const { error } = await supabase.from('page_content').insert([{ page_key: pageKey, section_key: sectionKey, content: '' }]);
-                            if (error) alert(error.message);
-                            else fetchPageContent();
-                        }}>
-                            <span className="material-symbols-outlined">add</span> Add Content block
-                        </button>
-                    </div>
-
-                    {editingContent && (
-                        <div className="modal-overlay">
-                            <div className="modal-content">
-                                <h2>Edit Content Block</h2>
-                                <p className="form-hint" style={{ marginBottom: '1rem' }}>
-                                    Editing: <strong>{editingContent.page_key}</strong> &gt; <strong>{editingContent.section_key}</strong>
-                                </p>
-                                <form onSubmit={async (e) => {
-                                    e.preventDefault();
-                                    const { error } = await supabase.from('page_content')
-                                        .update({ content: contentForm.content })
-                                        .eq('id', editingContent.id);
-                                    if (error) alert(error.message);
-                                    else {
-                                        setEditingContent(null);
-                                        fetchPageContent();
-                                    }
-                                }}>
-                                    <div className="form-group">
-                                        <label>Content</label>
-                                        <textarea 
-                                            rows="8" 
-                                            value={contentForm.content} 
-                                            onChange={e => setContentForm({ content: e.target.value })} 
-                                        />
-                                    </div>
-                                    <div className="modal-actions">
-                                        <button type="button" onClick={() => setEditingContent(null)} className="btn-secondary">Cancel</button>
-                                        <button type="submit" className="btn-primary">Save Content</button>
-                                    </div>
-                                </form>
+                    <div className="manage-grid" style={{ gridTemplateColumns: '1fr' }}>
+                        <div className="manage-card">
+                            <div className="manage-card-header">
+                                <h3>
+                                    <span className="material-symbols-outlined">photo_library</span>
+                                    Gallery Images
+                                </h3>
                             </div>
+                            <form className="manage-add-form" onSubmit={handleAddGalleryImage} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                    <input 
+                                        type="file" 
+                                        accept="image/*"
+                                        onChange={e => {
+                                            setNewGalleryFile(e.target.files[0]);
+                                            if (e.target.files[0]) setNewGallerySrc('');
+                                        }}
+                                        style={{ flex: 1 }}
+                                    />
+                                    <span>OR</span>
+                                    <input
+                                        type="text"
+                                        placeholder="Image URL or Path (e.g. /assets/...)"
+                                        value={newGallerySrc}
+                                        onChange={e => setNewGallerySrc(e.target.value)}
+                                        disabled={!!newGalleryFile}
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <input
+                                        type="text"
+                                        placeholder="Image Title"
+                                        value={newGalleryTitle}
+                                        onChange={e => setNewGalleryTitle(e.target.value)}
+                                        required
+                                        style={{ flex: 1 }}
+                                    />
+                                    <button type="submit" className="btn-primary btn-sm">
+                                        <span className="material-symbols-outlined">add</span>
+                                        Add Image
+                                    </button>
+                                </div>
+                            </form>
+                            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEndGallery}>
+                                <SortableContext items={galleryImages.map(i => i.id)} strategy={verticalListSortingStrategy}>
+                                    <ul className="manage-list">
+                                        {galleryImages.map(img => (
+                                            <SortableGalleryItem
+                                                key={img.id}
+                                                img={img}
+                                                editingGalleryImage={editingGalleryImage}
+                                                editGalleryTitle={editGalleryTitle}
+                                                setEditGalleryTitle={setEditGalleryTitle}
+                                                handleEditGalleryImage={handleEditGalleryImage}
+                                                setEditingGalleryImage={setEditingGalleryImage}
+                                                startEditGalleryImage={startEditGalleryImage}
+                                                handleDeleteGalleryImage={handleDeleteGalleryImage}
+                                                setPreviewImage={setPreviewImage}
+                                            />
+                                        ))}
+                                        {galleryImages.length === 0 && (
+                                            <li className="empty-list">No gallery images yet</li>
+                                        )}
+                                    </ul>
+                                </SortableContext>
+                            </DndContext>
                         </div>
-                    )}
-
-                    <div className="products-table-container">
-                        <table className="products-table">
-                            <thead>
-                                <tr>
-                                    <th>Page Key</th>
-                                    <th>Section Key</th>
-                                    <th>Content Preview</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {pageContent.map(content => (
-                                    <tr key={content.id}>
-                                        <td><span className="category-badge">{content.page_key}</span></td>
-                                        <td>{content.section_key}</td>
-                                        <td style={{ maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                            {content.content}
-                                        </td>
-                                        <td>
-                                            <button className="btn-icon" title="Edit Content" onClick={() => {
-                                                setContentForm({ content: content.content || '' });
-                                                setEditingContent(content);
-                                            }}>
-                                                <span className="material-symbols-outlined">edit</span>
-                                            </button>
-                                            <button className="btn-icon btn-danger" onClick={async () => {
-                                                if(window.confirm('Delete this content block?')) {
-                                                    await supabase.from('page_content').delete().eq('id', content.id);
-                                                    fetchPageContent();
-                                                }
-                                            }} title="Delete">
-                                                <span className="material-symbols-outlined">delete</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

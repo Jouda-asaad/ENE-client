@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import './AboutPage.css';
 import ScrollToTop from '../components/ScrollToTop';
-
-// All ENE-related imagery, grouped for a clean professional gallery.
-const galleryImages = [
-    { src: '/assets/services/onsite-1.jpg', title: 'On-Site Operations' },
-    { src: '/assets/services/onsite-2.jpg', title: 'On-Site Operations' },
-    { src: '/assets/services/onsite-3.jpg', title: 'On-Site Operations' },
-    { src: '/assets/services/onsite-4.jpg', title: 'On-Site Operations' },
-    { src: '/assets/services/onsite-5.jpg', title: 'On-Site Operations' },
-    { src: '/assets/services/valve-testing-1.png', title: 'Valve Testing' },
-    { src: '/assets/services/valve-testing-2.png', title: 'Valve Testing' },
-    { src: '/assets/services/engineering-consultation.jpg', title: 'Engineering Consultation' },
-    { src: '/assets/services/engineering-consultation-2.jpeg', title: 'Engineering Consultation' },
-    { src: '/assets/services/3d-mapping.png', title: '3D Mapping' },
-    { src: '/assets/misc/huc.png', title: 'Hook-Up & Commissioning' },
-    { src: '/assets/misc/maintenance.png', title: 'Maintenance' },
-    { src: '/assets/misc/marine.png', title: 'Marine Services' },
-    { src: '/assets/team/WhatsApp-Image-2025-04-25-at-09.39.21.jpeg', title: 'Our Team' },
-    { src: '/assets/team/WhatsApp-Image-2025-04-28-at-06.33.29.jpeg', title: 'Our Team' },
-    { src: '/assets/team/WhatsApp-Image-2025-04-28-at-06.33.30.jpeg', title: 'Our Team' },
-    { src: '/assets/team/WhatsApp-Image-2025-04-28-at-06.33.31.jpeg', title: 'Our Team' },
-    { src: '/assets/wheels/ene-wheels-branding.jpg', title: 'ENE Wheels' },
-    { src: '/assets/wheels/ene-wheels-lot-front.jpeg', title: 'ENE Wheels' },
-    { src: '/assets/wheels/ene-wheels-lot-side.jpeg', title: 'ENE Wheels' },
-    { src: '/assets/wheels/ene-wheels-lot-wide.jpeg', title: 'ENE Wheels' },
-    { src: '/assets/wheels/ene-wheels-lot-signage.jpeg', title: 'ENE Wheels' },
-];
+import { supabase } from '../supabaseClient';
 
 const GalleryPage = () => {
+    const [galleryImages, setGalleryImages] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
+    useEffect(() => {
+        const fetchGalleryImages = async () => {
+            const { data, error } = await supabase
+                .from('gallery_images')
+                .select('*')
+                .order('sort_order', { ascending: true })
+                .order('created_at', { ascending: true });
+            
+            if (data) {
+                setGalleryImages(data);
+            } else {
+                console.error('Error fetching gallery images:', error);
+            }
+            setLoading(false);
+        };
+
+        fetchGalleryImages();
+    }, []);
 
     const openLightbox = (index) => setSelectedImageIndex(index);
     const closeLightbox = () => setSelectedImageIndex(null);
@@ -45,7 +41,7 @@ const GalleryPage = () => {
     };
 
     useEffect(() => {
-        if ('IntersectionObserver' in window) {
+        if ('IntersectionObserver' in window && !loading && galleryImages.length > 0) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -55,7 +51,7 @@ const GalleryPage = () => {
             els.forEach((el) => observer.observe(el));
             return () => els.forEach((el) => observer.unobserve(el));
         }
-    }, []);
+    }, [loading, galleryImages]);
 
     return (
         <div className="about-page">
@@ -74,29 +70,35 @@ const GalleryPage = () => {
             {/* Gallery grid */}
             <section className="gallery-section">
                 <h2 className="section-title animate-on-scroll fade-up">Moments at ENE</h2>
-                <div className="showcase-grid animate-on-scroll fade-up">
-                    {galleryImages.map((item, index) => (
-                        <div
-                            key={index}
-                            className="showcase-card"
-                            onClick={() => openLightbox(index)}
-                        >
-                            <div className="card-image-wrapper">
-                                <img src={item.src} alt={item.title} loading="lazy" />
-                                <div className="card-overlay">
-                                    <span className="material-symbols-outlined">zoom_in</span>
+                {loading ? (
+                    <div style={{ textAlign: 'center', padding: '40px' }}>Loading...</div>
+                ) : galleryImages.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '40px' }}>No images found.</div>
+                ) : (
+                    <div className="showcase-grid animate-on-scroll fade-up">
+                        {galleryImages.map((item, index) => (
+                            <div
+                                key={item.id || index}
+                                className="showcase-card"
+                                onClick={() => openLightbox(index)}
+                            >
+                                <div className="card-image-wrapper">
+                                    <img src={item.src} alt={item.title} loading="lazy" />
+                                    <div className="card-overlay">
+                                        <span className="material-symbols-outlined">zoom_in</span>
+                                    </div>
+                                </div>
+                                <div className="card-content">
+                                    <h5>{item.title}</h5>
                                 </div>
                             </div>
-                            <div className="card-content">
-                                <h5>{item.title}</h5>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </section>
 
             {/* Lightbox */}
-            {selectedImageIndex !== null && (
+            {selectedImageIndex !== null && galleryImages.length > 0 && (
                 <div className="lightbox-overlay" onClick={closeLightbox}>
                     <button className="lightbox-close" onClick={closeLightbox}>
                         <span className="material-symbols-outlined">close</span>

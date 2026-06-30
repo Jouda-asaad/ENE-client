@@ -3,42 +3,55 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ServicesPage.css';
 
-const services = [
-    {
-        id: "01",
-        title: "Valve Servicing & Testing",
-        description: "State-of-the-art valve maintenance, repair, and testing facilities. Comprehensive testing and calibration services for all industrial valve types.",
-        image: "/assets/services/valve-testing-1.png",
-        gallery: [
-            "/assets/services/valve-testing-1.png",
-            "/assets/services/valve-testing-2.png"
-        ]
-    },
-    {
-        id: "02",
-        title: "On-Site Servicing & Testing",
-        description: "Rapid-response mobile field units equipped for on-site calibration, testing, and maintenance. Specialized manpower to minimize operational downtime.",
-        image: "/assets/services/onsite-1.jpg",
-        gallery: [
-            "/assets/services/onsite-1.jpg",
-            "/assets/services/onsite-2.jpg",
-            "/assets/services/onsite-3.jpg",
-            "/assets/services/onsite-4.jpg",
-            "/assets/services/onsite-5.jpg"
-        ]
-    }
-];
+import { supabase } from '../supabaseClient';
 
 const ServicesPage = () => {
+    const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
     const [showGallery, setShowGallery] = useState(false);
     const [galleryImages, setGalleryImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const location = useLocation();
 
+    // Fetch services from Supabase
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('services')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('sort_order', { ascending: true });
+
+                if (error) throw error;
+
+                if (data) {
+                    const mappedServices = data.map((s, index) => ({
+                        dbId: s.id,
+                        id: String(index + 1).padStart(2, '0'),
+                        title: s.title,
+                        description: s.description,
+                        image: s.image_url,
+                        gallery: s.gallery_urls || [],
+                        subServices: s.sub_services || [],
+                        partner: s.partner_name ? { name: s.partner_name, logo: s.partner_logo_url } : null
+                    }));
+                    setServices(mappedServices);
+                }
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchServices();
+    }, []);
+
     // Handle hash scrolling and auto-expanding
     useEffect(() => {
-        if (location.hash) {
+        if (!loading && services.length > 0 && location.hash) {
             const id = location.hash.replace('#service-', '');
             const index = services.findIndex(s => s.id === id);
 
@@ -54,7 +67,7 @@ const ServicesPage = () => {
                 }, 100);
             }
         }
-    }, [location]);
+    }, [location, loading, services]);
 
     const openGallery = (images, e) => {
         e.stopPropagation();
@@ -101,11 +114,20 @@ const ServicesPage = () => {
 
             {/* Services Section */}
             <section className="services-section">
-                <div className="accordion-container">
-                    {services.map((service, index) => (
-                        <div
-                            key={service.id}
-                            id={`service-${service.id}`}
+                {loading ? (
+                    <div style={{ textAlign: 'center', padding: '4rem', color: '#a8b5c4' }}>
+                        Loading services...
+                    </div>
+                ) : services.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '4rem', color: '#a8b5c4' }}>
+                        No services found.
+                    </div>
+                ) : (
+                    <div className="accordion-container">
+                        {services.map((service, index) => (
+                            <div
+                                key={service.dbId}
+                                id={`service-${service.id}`}
                             className={`accordion-item ${activeIndex === index ? 'active' : ''}`}
                             onMouseEnter={() => setActiveIndex(index)}
                             onClick={() => setActiveIndex(index)}
@@ -139,40 +161,45 @@ const ServicesPage = () => {
                                         </ul>
                                     )}
 
-                                    {/* Partner badge */}
-                                    {service.partner && (
-                                        <div className="partner-badge">
-                                            <span className="partner-text">Powered by</span>
-                                            <img
-                                                src={service.partner.logo}
-                                                alt={service.partner.name}
-                                                className="partner-logo"
-                                            />
-                                        </div>
-                                    )}
-
-                                    {/* Gallery thumbnails */}
-                                    {service.gallery && (
-                                        <div className="gallery-preview">
-                                            <div className="gallery-thumbnails">
-                                                {service.gallery.slice(0, 3).map((img, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className="gallery-thumb"
-                                                        onClick={(e) => openGallery(service.gallery, e)}
-                                                    >
-                                                        <img src={img} alt={`Gallery ${i + 1}`} />
+                                    {/* Footer assets: Partner badge and Gallery */}
+                                    {(service.partner || service.gallery) && (
+                                        <div className="service-footer-assets">
+                                            {/* Partner badge */}
+                                            {service.partner && (
+                                                <div className="partner-badge">
+                                                    <span className="partner-text">Powered by</span>
+                                                    <img
+                                                        src={service.partner.logo}
+                                                        alt={service.partner.name}
+                                                        className="partner-logo"
+                                                    />
+                                                </div>
+                                            )}
+                                            
+                                            {/* Gallery thumbnails */}
+                                            {service.gallery && (
+                                                <div className="gallery-preview">
+                                                    <div className="gallery-thumbnails">
+                                                        {service.gallery.slice(0, 3).map((img, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="gallery-thumb"
+                                                                onClick={(e) => openGallery(service.gallery, e)}
+                                                            >
+                                                                <img src={img} alt={`Gallery ${i + 1}`} />
+                                                            </div>
+                                                        ))}
+                                                        {service.gallery.length > 3 && (
+                                                            <div
+                                                                className="gallery-thumb gallery-more"
+                                                                onClick={(e) => openGallery(service.gallery, e)}
+                                                            >
+                                                                +{service.gallery.length - 3}
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                ))}
-                                                {service.gallery.length > 3 && (
-                                                    <div
-                                                        className="gallery-thumb gallery-more"
-                                                        onClick={(e) => openGallery(service.gallery, e)}
-                                                    >
-                                                        +{service.gallery.length - 3}
-                                                    </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
 
@@ -192,7 +219,8 @@ const ServicesPage = () => {
                             <div className={`accordion-bg ${activeIndex === index ? 'visible' : ''}`}></div>
                         </div>
                     ))}
-                </div>
+                    </div>
+                )}
             </section>
 
             {/* Gallery Modal */}
